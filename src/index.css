@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Hind Guntur", system-ui, sans-serif;
+  --font-display: "Source Serif 4", Georgia, serif;
+  --color-ink: #1d2a26;
+  --color-chalk: #f6f7f4;
+  --color-board: #1f4d3f;
+  --color-board-dark: #163a30;
+  --color-line: #d9ddd5;
+  --color-muted: #5f6d66;
+  --color-mark: #c9372c;
+}
+
+body { @apply bg-chalk text-ink font-sans antialiased; }
+:focus-visible { outline: 2px solid var(--color-board); outline-offset: 2px; }
