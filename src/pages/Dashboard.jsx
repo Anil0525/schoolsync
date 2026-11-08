@@ -26,13 +26,13 @@ export default function Dashboard() {
           <div className="border border-mark rounded-md p-5">
             <h2 className="font-semibold text-mark">No profile found for this account</h2>
             <p className="text-sm mt-1 text-muted">
-              Add a row for this user in the profiles table (see docs/PROGRESS.md, "First admin"), then refresh.
+              Add a row for this user in the ss_profiles table (see docs/PROGRESS.md, "First admin"), then refresh.
             </p>
           </div>
         ) : (
           <>
             <h1 className="font-display text-3xl font-semibold">
-              {profile.schools?.name || 'Your school'}
+              {profile.ss_schools?.name || 'Your school'}
             </h1>
             <p className="text-muted mt-1">Modules for your role. Each one is built in the order listed in docs/PROGRESS.md.</p>
 

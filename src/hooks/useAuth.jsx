@@ -10,8 +10,8 @@ export function AuthProvider({ children }) {
 
   async function loadProfile(userId) {
     const { data } = await supabase
-      .from('profiles')
-      .select('id, role, full_name, school_id, schools(name)')
+      .from('ss_profiles')
+      .select('id, role, full_name, school_id, ss_schools(name)')
       .eq('id', userId)
       .maybeSingle()
     setProfile(data)

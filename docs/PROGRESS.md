@@ -24,6 +24,9 @@ Rule: one module complete, test, deploy, then next.
 - [ ] Step 5: Marks + report card PDF
 - [ ] Step 6: UDISE+ export (map columns from official student bulk-upload template first)
 
+## Note
+All tables, type and functions use the ss_ prefix (shared Supabase project, free plan allows 2 projects).
+
 ## First admin
 Supabase: Authentication > Users > Add user. Then run supabase/migrations/002_first_admin.sql
 with that user's UID. Signup must never set roles directly; users are created by admin (edge function, later).
