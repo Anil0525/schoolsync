@@ -19,10 +19,11 @@ Rule: one module complete, test, deploy, then next.
 - [x] Step 2: SQL files in supabase/migrations (001 schema + RLS, 002 first admin)
 
 ## NEXT
-- [ ] Step 3: Admin CRUD: classes, sections (then students + Excel bulk import)
-- [ ] Step 4: Attendance marking UI + parent live notification
-- [ ] Step 5: Marks + report card PDF
-- [ ] Step 6: UDISE+ export (map columns from official student bulk-upload template first)
+- [x] Step 3: Login + role dashboards (live on GitHub Pages)
+- [x] Step 4: Admin CRUD: classes, sections, students + CSV bulk import (preview + validation)
+- [ ] Step 5: Attendance marking UI + parent live notification
+- [ ] Step 6: Marks + report card PDF
+- [ ] Step 7: UDISE+ export (map columns from official student bulk-upload template first)
 
 ## Note
 All tables, type and functions use the ss_ prefix (shared Supabase project, free plan allows 2 projects).

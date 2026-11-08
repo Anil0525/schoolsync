@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
 
 const MODULES = {
@@ -7,6 +8,8 @@ const MODULES = {
   student: ['My attendance', 'My marks', 'Homework'],
   parent: ['Child attendance', 'Child marks', 'Fees & receipts'],
 }
+
+const LINKS = { Students: '/students', 'Classes & sections': '/classes' }
 
 export default function Dashboard() {
   const { profile, signOut } = useAuth()
@@ -38,9 +41,18 @@ export default function Dashboard() {
 
             <ul className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {(MODULES[profile.role] || []).map((m) => (
-                <li key={m} className="bg-white border border-line rounded-md p-5">
-                  <h3 className="font-medium">{m}</h3>
-                  <p className="text-sm text-muted mt-1">Coming soon</p>
+                <li key={m}>
+                  {LINKS[m] ? (
+                    <Link to={LINKS[m]} className="block bg-white border border-line hover:border-board rounded-md p-5">
+                      <h3 className="font-medium">{m}</h3>
+                      <p className="text-sm text-board mt-1">Open</p>
+                    </Link>
+                  ) : (
+                    <div className="bg-white border border-line rounded-md p-5">
+                      <h3 className="font-medium">{m}</h3>
+                      <p className="text-sm text-muted mt-1">Coming soon</p>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
