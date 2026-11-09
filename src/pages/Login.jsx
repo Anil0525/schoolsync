@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
 import { isConfigured } from '../lib/supabaseClient'
+import { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../lib/demo.js'
 
 export default function Login() {
   const { session, signIn } = useAuth()
@@ -60,6 +61,25 @@ export default function Login() {
             className="w-full bg-board hover:bg-board-dark text-chalk rounded-md py-2.5 font-medium disabled:opacity-60">
             {busy ? 'Signing in…' : 'Sign in'}
           </button>
+
+          <div className="pt-6 border-t border-line">
+            <p className="text-sm text-muted mb-3">Just looking around? Sign in with a demo account.</p>
+            <div className="grid grid-cols-2 gap-2">
+              {DEMO_ACCOUNTS.map((d) => (
+                <button type="button" key={d.email} disabled={busy}
+                  onClick={async () => {
+                    setError(''); setBusy(true)
+                    const { error } = await signIn(d.email, DEMO_PASSWORD)
+                    setBusy(false)
+                    if (error) setError(`Demo ${d.label} account is not set up yet.`)
+                    else navigate('/')
+                  }}
+                  className="border border-board text-board rounded-md py-2 text-sm hover:bg-white disabled:opacity-60">
+                  {d.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </form>
       </section>
     </main>

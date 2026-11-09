@@ -9,7 +9,14 @@ const MODULES = {
   parent: ['Child attendance', 'Child marks', 'Fees & receipts'],
 }
 
-const LINKS = { Students: '/students', 'Classes & sections': '/classes' }
+const LINKS = {
+  Students: '/students',
+  'Classes & sections': '/classes',
+  Attendance: '/attendance',
+  'Mark attendance': '/attendance',
+  'My attendance': '/my-attendance',
+  'Child attendance': '/my-attendance',
+}
 
 export default function Dashboard() {
   const { profile, signOut } = useAuth()

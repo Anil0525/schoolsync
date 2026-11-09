@@ -21,9 +21,12 @@ Rule: one module complete, test, deploy, then next.
 ## NEXT
 - [x] Step 3: Login + role dashboards (live on GitHub Pages)
 - [x] Step 4: Admin CRUD: classes, sections, students + CSV bulk import (preview + validation)
-- [ ] Step 5: Attendance marking UI + parent live notification
+- [x] Step 5: Attendance: teacher/admin marking page, student/parent view with live (Realtime) alerts, demo login buttons (SQL 003, 004 to run)
 - [ ] Step 6: Marks + report card PDF
 - [ ] Step 7: UDISE+ export (map columns from official student bulk-upload template first)
+
+## Demo accounts
+Login page has demo buttons (src/lib/demo.js). Users teacher/accountant/student/parent @demo.schoolsync.in, password Demo@2026, created in Supabase Auth; 004_demo_data.sql links them.
 
 ## Note
 All tables, type and functions use the ss_ prefix (shared Supabase project, free plan allows 2 projects).
