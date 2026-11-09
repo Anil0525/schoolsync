@@ -20,6 +20,7 @@ const Teachers = lazy(() => import('./pages/Teachers.jsx'))
 const Users = lazy(() => import('./pages/Users.jsx'))
 const Announcements = lazy(() => import('./pages/Announcements.jsx'))
 const Homework = lazy(() => import('./pages/Homework.jsx'))
+const MyClasses = lazy(() => import('./pages/MyClasses.jsx'))
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
       <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
       <Route path="/announcements" element={<ProtectedRoute><Announcements /></ProtectedRoute>} />
       <Route path="/homework" element={<ProtectedRoute><Homework /></ProtectedRoute>} />
+      <Route path="/my-classes" element={<ProtectedRoute><MyClasses /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

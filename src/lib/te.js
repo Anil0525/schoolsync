@@ -97,4 +97,16 @@ export const te = {
   'Adm. no': 'ప్రవేశ సంఖ్య',
   'No records yet': 'ఇంకా రికార్డులు లేవు',
   'No results published yet.': 'ఫలితాలు ఇంకా ప్రచురించలేదు.',
+
+  // my classes (teacher)
+  students: 'విద్యార్థులు',
+  present: 'హాజరు', absent: 'గైర్హాజరు', late: 'ఆలస్యం', leave: 'సెలవు',
+  'Show students': 'విద్యార్థులను చూపించు',
+  'Hide students': 'విద్యార్థులను దాచు',
+  'Today: attendance not marked yet': 'ఈ రోజు: హాజరు ఇంకా నమోదు చేయలేదు',
+  'Today: attendance partly marked': 'ఈ రోజు: హాజరు కొంతవరకే నమోదు',
+  'Today: attendance marked': 'ఈ రోజు: హాజరు నమోదైంది',
+  'No active students in this section.': 'ఈ సెక్షన్‌లో యాక్టివ్ విద్యార్థులు లేరు.',
+  'No class assigned to you yet. Ask the admin to assign you as class teacher (Teachers page).':
+    'మీకు ఇంకా తరగతి కేటాయించలేదు. క్లాస్ టీచర్‌గా కేటాయించమని అడ్మిన్‌ను అడగండి (ఉపాధ్యాయులు పేజీ).',
 }

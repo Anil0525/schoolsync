@@ -28,7 +28,7 @@ father_name, mother_name, status. Aadhaar is NOT stored on purpose.
 
 CODE LAYOUT: src/lib (supabaseClient, csv, dates, results, reportPdf, receiptPdf, pdfFont, fees, udise, adminApi, demo, i18n.jsx,
 te.js), src/hooks/useAuth.jsx, src/components (Layout, Modal, ProtectedRoute, CreateUserModal, LangToggle), src/pages (Login,
-Dashboard, Classes, Students, Attendance, MyAttendance, Exams, MarksEntry, ReportCards, MyMarks, Fees, MyFees, Udise, Teachers,
+Dashboard, MyClasses, Classes, Students, Attendance, MyAttendance, Exams, MarksEntry, ReportCards, MyMarks, Fees, MyFees, Udise, Teachers,
 Users, Announcements, Homework), supabase/migrations 001 to 013, supabase/functions/admin-create-user/index.ts,
 public/fonts (Noto Sans Telugu subset for PDFs), README.md (full, with mermaid diagrams), docs/screenshots.
 Demo users, password Demo@2026: admin@, teacher@, accountant@, student@, parent@ schoolsync-demo.com. Real admin account exists
@@ -57,6 +57,10 @@ NEXT (ask which first):
 2. UDISE+ export: match official bulk-upload template (he will send headers).
 3. Later: Razorpay (replace ss_mock_pay with an Edge Function that verifies the signature server-side), due reminders,
    translate remaining admin screens, shape Telugu in PDFs (canvas images), more polish for the portfolio.
+
+MY CLASSES (teacher, /my-classes, no SQL needed): lists sections where ss_sections.class_teacher_id = teacher, student count,
+today's attendance status, show/hide students, links to attendance (preselects section via ?section=), marks, homework.
+USER TESTED OK (2026-11-09): fixed 011, Report cards, Fees, Announcements, Homework, Telugu toggle, UDISE+, Admin users.
 
 KNOWN NOTES: demo accounts are public so demo data can be re-seeded; school name shown is "Demo School"; Edge Functions need
 Verify JWT OFF because the project uses the new key system.

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useSearchParams } from 'react-router-dom'
 import Layout from '../components/Layout.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
@@ -14,6 +14,8 @@ const STATUSES = [
 
 export default function Attendance() {
   const { profile } = useAuth()
+  const [params] = useSearchParams()
+  const wanted = params.get('section')
   const [sections, setSections] = useState([])
   const [sectionId, setSectionId] = useState('')
   const [date, setDate] = useState(today())
@@ -28,7 +30,7 @@ export default function Attendance() {
     supabase.from('ss_sections').select('id, name, ss_classes(name)').order('name').then(({ data }) => {
       const list = (data || []).sort((a, b) => (a.ss_classes?.name || '').localeCompare(b.ss_classes?.name || '') || a.name.localeCompare(b.name))
       setSections(list)
-      if (list[0]) setSectionId((cur) => cur || list[0].id)
+      if (list[0]) setSectionId((cur) => cur || (list.some((x) => x.id === wanted) ? wanted : list[0].id))
     })
   }, [allowed])
 

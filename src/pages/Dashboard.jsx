@@ -15,6 +15,7 @@ const LINKS = {
   Students: '/students',
   'Classes & sections': '/classes',
   Attendance: '/attendance',
+  'My classes': '/my-classes',
   'Mark attendance': '/attendance',
   'My attendance': '/my-attendance',
   'Child attendance': '/my-attendance',
