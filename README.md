@@ -5,7 +5,6 @@ announcements, homework, and a UDISE+ readiness report with Excel export. Built 
 
 **Live demo:** https://anil0525.github.io/schoolsync (use the demo buttons on the login page, no sign-up needed)
 
-<!-- SCREENSHOTS: after adding the PNG files to docs/screenshots, delete this line and the closing line below.
 ## Screenshots
 
 | Login | Admin dashboard |
@@ -23,7 +22,6 @@ announcements, homework, and a UDISE+ readiness report with Excel export. Built 
 | UDISE+ readiness | Telugu UI |
 | --- | --- |
 | ![UDISE+](docs/screenshots/07-udise-readiness.png) | ![Telugu](docs/screenshots/08-telugu-dashboard.png) |
-END OF SCREENSHOTS -->
 
 ## Demo accounts
 
