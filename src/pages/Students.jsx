@@ -9,8 +9,14 @@ import { parseCsv, toCsv, downloadText } from '../lib/csv.js'
 const GENDERS = ['Male', 'Female', 'Other']
 const CATEGORIES = ['General', 'SC', 'ST', 'OBC']
 const STATUSES = ['active', 'transferred', 'passed_out']
-const EMPTY = { admission_no: '', full_name: '', dob: '', gender: '', section_id: '', social_category: '', minority: false, cwsn: false, status: 'active' }
-const TEMPLATE_HEAD = ['admission_no', 'full_name', 'dob', 'gender', 'class', 'section', 'social_category', 'minority', 'cwsn']
+const EMPTY = {
+  admission_no: '', full_name: '', dob: '', gender: '', section_id: '', social_category: '', minority: false, cwsn: false, status: 'active',
+  pen: '', apaar_id: '', father_name: '', mother_name: '', minority_group: '', impairment_type: '', bpl: false, is_repeater: false,
+}
+const TEXT_COLS = ['pen', 'apaar_id', 'father_name', 'mother_name', 'minority_group', 'impairment_type']
+const BOOL_COLS = ['bpl', 'is_repeater']
+const TEMPLATE_HEAD = ['admission_no', 'full_name', 'dob', 'gender', 'class', 'section', 'social_category', 'minority', 'cwsn',
+  'father_name', 'mother_name', 'pen', 'apaar_id', 'minority_group', 'bpl', 'impairment_type', 'is_repeater']
 const yes = (v) => ['yes', 'y', 'true', '1'].includes(String(v).trim().toLowerCase())
 const pick = (list, v) => list.find((x) => x.toLowerCase() === String(v).trim().toLowerCase())
 
@@ -60,6 +66,9 @@ export default function Students() {
       minority: form.minority,
       cwsn: form.cwsn,
       status: form.status,
+      bpl: !!form.bpl,
+      is_repeater: !!form.is_repeater,
+      ...Object.fromEntries(TEXT_COLS.map((k) => [k, (form[k] || '').trim() || null])),
     }
     const q = form.id
       ? supabase.from('ss_students').update(payload).eq('id', form.id)
@@ -76,7 +85,7 @@ export default function Students() {
   }
 
   function downloadTemplate() {
-    downloadText('students_template.csv', toCsv(TEMPLATE_HEAD, [['1001', 'Ravi Kumar', '2014-06-15', 'Male', 'Class 5', 'A', 'General', 'no', 'no']]))
+    downloadText('students_template.csv', toCsv(TEMPLATE_HEAD, [['1001', 'Ravi Kumar', '2014-06-15', 'Male', 'Class 5', 'A', 'General', 'no', 'no', 'Suresh Kumar', 'Lakshmi', '', '', '', 'no', '', 'no']]))
   }
 
   async function onFile(e) {
@@ -87,6 +96,7 @@ export default function Students() {
     const secMap = new Map(sections.map((s) => [`${(s.ss_classes?.name || '').toLowerCase()}|${s.name.toLowerCase()}`, s.id]))
     const seen = new Set()
     const valid = [], errors = []
+    const has = (c) => rows.length > 0 && c in rows[0]
     rows.forEach((r, i) => {
       const n = i + 2
       const problems = []
@@ -109,6 +119,8 @@ export default function Students() {
         school_id: profile.school_id, admission_no: r.admission_no, full_name: r.full_name,
         dob: r.dob || null, gender, section_id, social_category: cat,
         minority: yes(r.minority), cwsn: yes(r.cwsn), status: 'active',
+        ...Object.fromEntries(TEXT_COLS.filter(has).map((k) => [k, r[k] || null])),
+        ...Object.fromEntries(BOOL_COLS.filter(has).map((k) => [k, yes(r[k])])),
       })
     })
     setImportState({ valid, errors, total: rows.length, done: false, message: '' })
@@ -165,7 +177,7 @@ export default function Students() {
                   <td className="px-3 py-2">{s.social_category}</td>
                   <td className="px-3 py-2">{s.status}</td>
                   <td className="px-3 py-2 whitespace-nowrap">
-                    <button onClick={() => { setError(''); setForm({ ...EMPTY, ...s, dob: s.dob || '', gender: s.gender || '', section_id: s.section_id || '', social_category: s.social_category || '' }) }} className="underline underline-offset-4 mr-3">Edit</button>
+                    <button onClick={() => { setError(''); setForm({ ...EMPTY, ...s, dob: s.dob || '', gender: s.gender || '', section_id: s.section_id || '', social_category: s.social_category || '', ...Object.fromEntries(TEXT_COLS.map((k) => [k, s[k] || ''])), bpl: !!s.bpl, is_repeater: !!s.is_repeater }) }} className="underline underline-offset-4 mr-3">Edit</button>
                     <button onClick={() => remove(s)} className="text-mark underline underline-offset-4">Delete</button>
                   </td>
                 </tr>
@@ -199,6 +211,25 @@ export default function Students() {
             </div>
             <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.minority} onChange={set('minority')} /> Minority</label>
             <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.cwsn} onChange={set('cwsn')} /> Child with special needs (CWSN)</label>
+            <div className="border-t border-line pt-3 mt-1">
+              <p className="text-sm font-medium mb-2">UDISE+ details</p>
+              <div className="grid grid-cols-2 gap-3">
+                <label className="block text-sm">Father's name<input value={form.father_name} onChange={set('father_name')} className={field} /></label>
+                <label className="block text-sm">Mother's name<input value={form.mother_name} onChange={set('mother_name')} className={field} /></label>
+                <label className="block text-sm">Student PEN<input value={form.pen} onChange={set('pen')} className={field} /></label>
+                <label className="block text-sm">APAAR ID<input value={form.apaar_id} onChange={set('apaar_id')} className={field} /></label>
+              </div>
+              {form.minority && (
+                <label className="block text-sm mt-3">Minority group<input value={form.minority_group} onChange={set('minority_group')} className={field} /></label>
+              )}
+              {form.cwsn && (
+                <label className="block text-sm mt-3">Type of impairment<input value={form.impairment_type} onChange={set('impairment_type')} className={field} /></label>
+              )}
+              <div className="flex gap-6 mt-3">
+                <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!form.bpl} onChange={set('bpl')} /> BPL beneficiary</label>
+                <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!form.is_repeater} onChange={set('is_repeater')} /> Repeater</label>
+              </div>
+            </div>
             {error && <p className="text-mark text-sm">{error}</p>}
             <button className="w-full bg-board hover:bg-board-dark text-chalk rounded-md py-2.5 font-medium">{form.id ? 'Save changes' : 'Add student'}</button>
           </form>

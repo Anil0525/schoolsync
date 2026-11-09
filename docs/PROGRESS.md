@@ -23,7 +23,7 @@ ss_exam_rank(exam, student), ss_mock_pay(fee, amount). Every table has school_id
 
 CODE LAYOUT: src/lib (supabaseClient, csv, dates, results (grades, ranks), reportPdf, demo), src/hooks/useAuth.jsx,
 src/components (Layout, Modal, ProtectedRoute), src/pages (Login, Dashboard, Classes, Students, Attendance,
-MyAttendance, Exams, MarksEntry, ReportCards, MyMarks, Fees, MyFees), src/lib also fees.js and receiptPdf.js, supabase/migrations 001 to 009.
+MyAttendance, Exams, MarksEntry, ReportCards, MyMarks, Fees, MyFees), Udise; src/lib also fees.js, receiptPdf.js, udise.js; supabase/migrations 001 to 010.
 Login page has demo buttons (src/lib/demo.js). Demo users, password Demo@2026:
 admin@, teacher@, accountant@, student@, parent@ schoolsync-demo.com (auth users created in Supabase dashboard,
 profiles via 004 and 007 SQL). Real admin account exists separately (Anil's own).
@@ -37,6 +37,12 @@ BUILT, USER STILL TO CONFIRM: Fees module (SQL 008_fees.sql, 009_demo_fees.sql):
 whole class), payments (cash/UPI/card/cheque by admin/accountant), receipt PDF (uses "Rs." since the PDF font has no rupee
 sign), student/parent MyFees with MOCK online payment via ss_mock_pay() (no real money). Razorpay and due reminders skipped
 for now by choice.
+BUILT, USER STILL TO CONFIRM: UDISE+ page (/udise, admin): SQL 010_udise_fields.sql adds pen, apaar_id, father_name, mother_name,
+minority_group, bpl, impairment_type, is_repeater to ss_students; Students form and CSV import have these fields; readiness %
+(src/lib/udise.js REQUIRED list is our assumption) and Excel export (write-excel-file) in the column order of the SDMS "Students List"
+(Class, Section, Name, Gender, Student PEN, Father/Mother Name, Social Category, Minority Group, BPL, CWSN, Type of Impairments,
+Is Repeater, APAAR ID). Aadhaar is NOT stored on purpose. The file user gave was the SDMS Students List export (header only), NOT
+the bulk-upload template: still need the official bulk-upload template headers to make the export upload-ready.
 
 GOAL: staff work minimum through automation, plus UDISE+ compliance in one click. Telugu + English UI later.
 SCOPE (solo, realistic): one module complete, test, deploy, then next. Skip for now: Library, Transport, AI bots.
@@ -45,7 +51,7 @@ NEXT (in this order, ask which first):
 1. Confirm marks module works (Teacher: Report cards; Parent: Child marks; PDF download).
 2. Fees: confirm 008/009 and the Fees page work. LATER: Razorpay (replace ss_mock_pay with a Supabase Edge Function that
    verifies the signature server-side) and due reminders.
-3. UDISE+ export: first get the official student bulk-upload Excel template columns from me, map them to
+3. UDISE+ export: first version built (see above). Next: get the official bulk-upload template headers from me and match exactly, map them to
    ss_students fields (current UDISE fields: social_category, minority, cwsn, status), validate, readiness %.
 4. Admin: add Teacher/Student/Parent users from the UI (Edge Function), Teachers module, link parent to student.
 5. Announcements, homework, Telugu/English toggle, README with screenshots and architecture for the portfolio.

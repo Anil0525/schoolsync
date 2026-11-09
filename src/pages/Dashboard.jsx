@@ -22,6 +22,7 @@ const LINKS = {
   'My marks': '/my-marks',
   'Child marks': '/my-marks',
   'Fees & collection': '/fees',
+  'UDISE+ export': '/udise',
   'My fees': '/my-fees',
   'Fees & receipts': '/my-fees',
 }
