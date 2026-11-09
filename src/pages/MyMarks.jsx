@@ -5,9 +5,11 @@ import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
 import { buildResults } from '../lib/results.js'
 import { downloadReportCards } from '../lib/reportPdf.js'
+import { useI18n } from '../lib/i18n.jsx'
 
 export default function MyMarks() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const allowed = profile && ['student', 'parent'].includes(profile.role)
   const [blocks, setBlocks] = useState(null)
 
@@ -53,13 +55,13 @@ export default function MyMarks() {
 
   return (
     <Layout title={profile?.role === 'parent' ? 'Child marks' : 'My marks'}>
-      {blocks && blocks.length === 0 && <p className="text-muted">No student is linked to this account yet.</p>}
+      {blocks && blocks.length === 0 && <p className="text-muted">{t('No student is linked to this account yet.')}</p>}
       <div className="space-y-6">
         {(blocks || []).map(({ kid, className, attendancePct, examBlocks }) => (
           <section key={kid.id} className="bg-white border border-line rounded-md p-5">
             <h2 className="font-display text-xl font-semibold">{kid.full_name}</h2>
-            <p className="text-sm text-muted">{className || 'Class not assigned'} · Adm. no {kid.admission_no}</p>
-            {examBlocks.length === 0 && <p className="mt-4 text-muted text-sm">No results published yet.</p>}
+            <p className="text-sm text-muted">{className || t('Class not assigned')} · {t('Adm. no')} {kid.admission_no}</p>
+            {examBlocks.length === 0 && <p className="mt-4 text-muted text-sm">{t('No results published yet.')}</p>}
             {examBlocks.map(({ exam, res, rank, size }) => (
               <div key={exam.id} className="mt-5">
                 <div className="flex items-center justify-between gap-3">

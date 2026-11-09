@@ -3,9 +3,12 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
 import { isConfigured } from '../lib/supabaseClient'
 import { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../lib/demo.js'
+import { useI18n } from '../lib/i18n.jsx'
+import LangToggle from '../components/LangToggle.jsx'
 
 export default function Login() {
   const { session, signIn } = useAuth()
+  const { t } = useI18n()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,17 +28,18 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen grid md:grid-cols-2">
+    <main className="relative min-h-screen grid md:grid-cols-2">
+      <div className="absolute top-4 right-4 z-10"><LangToggle /></div>
       <section className="bg-board text-chalk p-10 md:p-16 flex flex-col justify-between">
         <h1 className="font-display text-4xl md:text-5xl font-bold leading-tight">SchoolSync</h1>
         <p className="text-lg max-w-sm text-chalk/85 mt-10 md:mt-0">
-          Attendance, marks, fees and UDISE+ data in one place, so staff spend their time teaching.
+          {t('Attendance, marks, fees and UDISE+ data in one place, so staff spend their time teaching.')}
         </p>
       </section>
 
       <section className="p-8 md:p-16 flex items-center">
         <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-5">
-          <h2 className="font-display text-2xl font-semibold">Sign in</h2>
+          <h2 className="font-display text-2xl font-semibold">{t('Sign in')}</h2>
 
           {!isConfigured && (
             <p className="border border-mark text-mark rounded-md p-3 text-sm">
@@ -44,13 +48,13 @@ export default function Login() {
           )}
 
           <label className="block">
-            <span className="text-sm text-muted">Email</span>
+            <span className="text-sm text-muted">{t('Email')}</span>
             <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
               className="mt-1 w-full border border-line rounded-md px-3 py-2 bg-white" />
           </label>
 
           <label className="block">
-            <span className="text-sm text-muted">Password</span>
+            <span className="text-sm text-muted">{t('Password')}</span>
             <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
               className="mt-1 w-full border border-line rounded-md px-3 py-2 bg-white" />
           </label>
@@ -59,11 +63,11 @@ export default function Login() {
 
           <button disabled={busy}
             className="w-full bg-board hover:bg-board-dark text-chalk rounded-md py-2.5 font-medium disabled:opacity-60">
-            {busy ? 'Signing in…' : 'Sign in'}
+            {busy ? t('Signing in…') : t('Sign in')}
           </button>
 
           <div className="pt-6 border-t border-line">
-            <p className="text-sm text-muted mb-3">Just looking around? Sign in with a demo account.</p>
+            <p className="text-sm text-muted mb-3">{t('Just looking around? Sign in with a demo account.')}</p>
             <div className="grid grid-cols-2 gap-2">
               {DEMO_ACCOUNTS.map((d) => (
                 <button type="button" key={d.email} disabled={busy}
@@ -75,7 +79,7 @@ export default function Login() {
                     else navigate('/')
                   }}
                   className={`border border-board text-board rounded-md py-2 text-sm hover:bg-white disabled:opacity-60 ${d.wide ? "col-span-2" : ""}`}>
-                  {d.label}
+                  {t(d.label)}
                 </button>
               ))}
             </div>

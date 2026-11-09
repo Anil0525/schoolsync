@@ -1,24 +1,30 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import Dashboard from './pages/Dashboard.jsx'
-import Classes from './pages/Classes.jsx'
-import Students from './pages/Students.jsx'
-import Attendance from './pages/Attendance.jsx'
-import MyAttendance from './pages/MyAttendance.jsx'
-import Exams from './pages/Exams.jsx'
-import MarksEntry from './pages/MarksEntry.jsx'
-import ReportCards from './pages/ReportCards.jsx'
-import MyMarks from './pages/MyMarks.jsx'
-import Fees from './pages/Fees.jsx'
-import MyFees from './pages/MyFees.jsx'
-import Udise from './pages/Udise.jsx'
-import Teachers from './pages/Teachers.jsx'
-import Users from './pages/Users.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+
+// pages load on demand, so the first screen stays small
+const Classes = lazy(() => import('./pages/Classes.jsx'))
+const Students = lazy(() => import('./pages/Students.jsx'))
+const Attendance = lazy(() => import('./pages/Attendance.jsx'))
+const MyAttendance = lazy(() => import('./pages/MyAttendance.jsx'))
+const Exams = lazy(() => import('./pages/Exams.jsx'))
+const MarksEntry = lazy(() => import('./pages/MarksEntry.jsx'))
+const ReportCards = lazy(() => import('./pages/ReportCards.jsx'))
+const MyMarks = lazy(() => import('./pages/MyMarks.jsx'))
+const Fees = lazy(() => import('./pages/Fees.jsx'))
+const MyFees = lazy(() => import('./pages/MyFees.jsx'))
+const Udise = lazy(() => import('./pages/Udise.jsx'))
+const Teachers = lazy(() => import('./pages/Teachers.jsx'))
+const Users = lazy(() => import('./pages/Users.jsx'))
+const Announcements = lazy(() => import('./pages/Announcements.jsx'))
+const Homework = lazy(() => import('./pages/Homework.jsx'))
 
 export default function App() {
   return (
-    <Routes>
+    <Suspense fallback={<p className="p-10 text-muted">…</p>}>
+      <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/classes" element={<ProtectedRoute><Classes /></ProtectedRoute>} />
@@ -34,7 +40,10 @@ export default function App() {
       <Route path="/udise" element={<ProtectedRoute><Udise /></ProtectedRoute>} />
       <Route path="/teachers" element={<ProtectedRoute><Teachers /></ProtectedRoute>} />
       <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+      <Route path="/announcements" element={<ProtectedRoute><Announcements /></ProtectedRoute>} />
+      <Route path="/homework" element={<ProtectedRoute><Homework /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+      </Routes>
+    </Suspense>
   )
 }

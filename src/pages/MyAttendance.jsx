@@ -4,11 +4,13 @@ import Layout from '../components/Layout.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
 import { niceDate } from '../lib/dates.js'
+import { useI18n } from '../lib/i18n.jsx'
 
 const TONE = { present: 'text-board', absent: 'text-mark', late: 'text-amber-700', leave: 'text-muted' }
 
 export default function MyAttendance() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const [kids, setKids] = useState([])
   const [records, setRecords] = useState([])
   const [alerts, setAlerts] = useState([])
@@ -51,7 +53,7 @@ export default function MyAttendance() {
         <p key={a.id} role="status" className="border border-board bg-white rounded-md p-3 mb-3 text-sm">Just now: {a.text}</p>
       ))}
 
-      {kids.length === 0 && <p className="text-muted">No student is linked to this account yet. Ask the school office to link one.</p>}
+      {kids.length === 0 && <p className="text-muted">{t('No student is linked to this account yet. Ask the school office to link one.')}</p>}
 
       <div className="space-y-6">
         {kids.map((k) => {
@@ -62,9 +64,9 @@ export default function MyAttendance() {
             <section key={k.id} className="bg-white border border-line rounded-md p-5">
               <h2 className="font-display text-xl font-semibold">{k.full_name}</h2>
               <p className="text-sm text-muted">
-                {`${k.ss_sections?.ss_classes?.name || ''} ${k.ss_sections?.name || ''}`.trim() || 'Class not assigned'} · Adm. no {k.admission_no}
+                {`${k.ss_sections?.ss_classes?.name || ''} ${k.ss_sections?.name || ''}`.trim() || t('Class not assigned')} · {t('Adm. no')} {k.admission_no}
               </p>
-              <p className="mt-4 text-3xl font-display font-semibold">{pct === null ? 'No records yet' : `${pct}%`}</p>
+              <p className="mt-4 text-3xl font-display font-semibold">{pct === null ? t('No records yet') : `${pct}%`}</p>
               {pct !== null && <p className="text-sm text-muted">{attended} of {mine.length} days attended (present or late)</p>}
               {mine.length > 0 && (
                 <ul className="mt-4 divide-y divide-line text-sm max-h-72 overflow-y-auto">

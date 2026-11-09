@@ -7,12 +7,14 @@ import { useAuth } from '../hooks/useAuth.jsx'
 import { niceDate } from '../lib/dates.js'
 import { inr, METHOD_LABEL, STATUS, summarize, classLabel, receiptData } from '../lib/fees.js'
 import { downloadReceipt } from '../lib/receiptPdf.js'
+import { useI18n } from '../lib/i18n.jsx'
 
 const input = 'border border-line rounded-md px-3 py-2 bg-white'
 const btn = 'bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 text-sm font-medium disabled:opacity-60'
 
 export default function MyFees() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const allowed = profile && ['student', 'parent'].includes(profile.role)
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
@@ -52,8 +54,8 @@ export default function MyFees() {
   return (
     <Layout title={profile?.role === 'parent' ? 'Fees & receipts' : 'My fees'}>
       {error && <p className="text-mark text-sm mb-4">{error}</p>}
-      {!data && <p className="text-muted">Loading…</p>}
-      {data && data.kids.length === 0 && !error && <p className="text-muted">No student is linked to this account.</p>}
+      {!data && <p className="text-muted">{t('Loading…')}</p>}
+      {data && data.kids.length === 0 && !error && <p className="text-muted">{t('No student is linked to this account.')}</p>}
 
       <div className="space-y-8">
         {data?.kids.map((kid) => {
@@ -65,7 +67,7 @@ export default function MyFees() {
                 <h2 className="font-display text-xl font-semibold">
                   {kid.full_name} <span className="text-sm text-muted font-sans">{classLabel(kid)}</span>
                 </h2>
-                <p className="text-sm text-muted">Total due <span className={`font-medium ${due > 0 ? 'text-mark' : 'text-board'}`}>{inr(due)}</span></p>
+                <p className="text-sm text-muted">{t('Total due')} <span className={`font-medium ${due > 0 ? 'text-mark' : 'text-board'}`}>{inr(due)}</span></p>
               </div>
 
               <ul className="divide-y divide-line">
@@ -77,8 +79,8 @@ export default function MyFees() {
                         <p className="text-sm text-muted">{inr(r.fee.amount)} · due {niceDate(r.fee.due_date)} · paid {inr(r.paid)}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className={`border rounded-full px-2 py-0.5 text-xs ${STATUS[r.status][1]}`}>{STATUS[r.status][0]}</span>
-                        {r.balance > 0 && <button onClick={() => setPay(r)} className={btn}>Pay {inr(r.balance)}</button>}
+                        <span className={`border rounded-full px-2 py-0.5 text-xs ${STATUS[r.status][1]}`}>{t(STATUS[r.status][0])}</span>
+                        {r.balance > 0 && <button onClick={() => setPay(r)} className={btn}>{t('Pay')} {inr(r.balance)}</button>}
                       </div>
                     </div>
                     {r.payments.length > 0 && (
@@ -86,14 +88,14 @@ export default function MyFees() {
                         {r.payments.map((p) => (
                           <li key={p.id} className="flex flex-wrap items-center gap-3">
                             <span>{inr(p.amount)} · {METHOD_LABEL[p.method] || p.method} · {new Date(p.paid_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} · {p.receipt_no}</span>
-                            <button onClick={() => receipt(kid, r.fee, p, data.payments)} className="text-board underline underline-offset-4">Receipt PDF</button>
+                            <button onClick={() => receipt(kid, r.fee, p, data.payments)} className="text-board underline underline-offset-4">{t('Receipt PDF')}</button>
                           </li>
                         ))}
                       </ul>
                     )}
                   </li>
                 ))}
-                {rows.length === 0 && <li className="py-3 text-sm text-muted">No fees have been added yet.</li>}
+                {rows.length === 0 && <li className="py-3 text-sm text-muted">{t('No fees have been added yet.')}</li>}
               </ul>
             </section>
           )
