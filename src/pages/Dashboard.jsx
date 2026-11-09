@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
 
 const MODULES = {
-  admin: ['Students', 'Teachers', 'Classes & sections', 'Attendance', 'Marks & report cards', 'UDISE+ export'],
-  teacher: ['My classes', 'Mark attendance', 'Enter marks'],
+  admin: ['Students', 'Teachers', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'UDISE+ export'],
+  teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards'],
   accountant: ['Fee structure', 'Collect fees', 'Dues'],
   student: ['My attendance', 'My marks', 'Homework'],
   parent: ['Child attendance', 'Child marks', 'Fees & receipts'],
@@ -16,6 +16,11 @@ const LINKS = {
   'Mark attendance': '/attendance',
   'My attendance': '/my-attendance',
   'Child attendance': '/my-attendance',
+  'Exams & subjects': '/exams',
+  'Enter marks': '/marks',
+  'Report cards': '/report-cards',
+  'My marks': '/my-marks',
+  'Child marks': '/my-marks',
 }
 
 export default function Dashboard() {

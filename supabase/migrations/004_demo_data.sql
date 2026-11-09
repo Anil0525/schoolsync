@@ -1,6 +1,6 @@
 -- Demo data for portfolio/demo logins.
 -- BEFORE running: Supabase > Authentication > Users > Add user (tick Auto Confirm User), password Demo@2026, for:
---   teacher@demo.schoolsync.in, accountant@demo.schoolsync.in, student@demo.schoolsync.in, parent@demo.schoolsync.in
+--   teacher@schoolsync-demo.com, accountant@schoolsync-demo.com, student@schoolsync-demo.com, parent@schoolsync-demo.com
 -- Safe to run more than once.
 do $$
 declare
@@ -15,10 +15,10 @@ begin
   insert into ss_profiles (id, school_id, role, full_name)
   select u.id, sch, v.role::ss_user_role, v.name
   from (values
-    ('teacher@demo.schoolsync.in',    'teacher',    'Demo Teacher'),
-    ('accountant@demo.schoolsync.in', 'accountant', 'Demo Accountant'),
-    ('student@demo.schoolsync.in',    'student',    'Demo Student'),
-    ('parent@demo.schoolsync.in',     'parent',     'Demo Parent')
+    ('teacher@schoolsync-demo.com',    'teacher',    'Demo Teacher'),
+    ('accountant@schoolsync-demo.com', 'accountant', 'Demo Accountant'),
+    ('student@schoolsync-demo.com',    'student',    'Demo Student'),
+    ('parent@schoolsync-demo.com',     'parent',     'Demo Parent')
   ) as v(email, role, name)
   join auth.users u on u.email = v.email
   on conflict (id) do update
@@ -44,12 +44,12 @@ begin
   insert into ss_students (school_id, admission_no, full_name, gender, section_id, social_category, user_id)
   select sch, 'D101', 'Demo Student', 'Male', sec, 'General', u.id
   from (select 1) x
-  left join auth.users u on u.email = 'student@demo.schoolsync.in'
+  left join auth.users u on u.email = 'student@schoolsync-demo.com'
   on conflict (school_id, admission_no) do update set user_id = excluded.user_id;
 
   select id into stu from ss_students where school_id = sch and admission_no = 'D101';
   insert into ss_parent_student (parent_id, student_id)
-  select u.id, stu from auth.users u where u.email = 'parent@demo.schoolsync.in'
+  select u.id, stu from auth.users u where u.email = 'parent@schoolsync-demo.com'
   on conflict do nothing;
 
   -- four weeks of weekday attendance history for the demo students
