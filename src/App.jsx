@@ -12,6 +12,8 @@ import MyMarks from './pages/MyMarks.jsx'
 import Fees from './pages/Fees.jsx'
 import MyFees from './pages/MyFees.jsx'
 import Udise from './pages/Udise.jsx'
+import Teachers from './pages/Teachers.jsx'
+import Users from './pages/Users.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
@@ -30,6 +32,8 @@ export default function App() {
       <Route path="/fees" element={<ProtectedRoute><Fees /></ProtectedRoute>} />
       <Route path="/my-fees" element={<ProtectedRoute><MyFees /></ProtectedRoute>} />
       <Route path="/udise" element={<ProtectedRoute><Udise /></ProtectedRoute>} />
+      <Route path="/teachers" element={<ProtectedRoute><Teachers /></ProtectedRoute>} />
+      <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

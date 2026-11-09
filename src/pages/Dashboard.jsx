@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
 
 const MODULES = {
-  admin: ['Students', 'Teachers', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'UDISE+ export'],
+  admin: ['Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'UDISE+ export'],
   teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards'],
   accountant: ['Fees & collection'],
   student: ['My attendance', 'My marks', 'My fees', 'Homework'],
@@ -23,6 +23,8 @@ const LINKS = {
   'Child marks': '/my-marks',
   'Fees & collection': '/fees',
   'UDISE+ export': '/udise',
+  Teachers: '/teachers',
+  'User accounts': '/users',
   'My fees': '/my-fees',
   'Fees & receipts': '/my-fees',
 }
