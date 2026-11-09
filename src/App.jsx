@@ -9,6 +9,8 @@ import Exams from './pages/Exams.jsx'
 import MarksEntry from './pages/MarksEntry.jsx'
 import ReportCards from './pages/ReportCards.jsx'
 import MyMarks from './pages/MyMarks.jsx'
+import Fees from './pages/Fees.jsx'
+import MyFees from './pages/MyFees.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
@@ -24,6 +26,8 @@ export default function App() {
       <Route path="/marks" element={<ProtectedRoute><MarksEntry /></ProtectedRoute>} />
       <Route path="/report-cards" element={<ProtectedRoute><ReportCards /></ProtectedRoute>} />
       <Route path="/my-marks" element={<ProtectedRoute><MyMarks /></ProtectedRoute>} />
+      <Route path="/fees" element={<ProtectedRoute><Fees /></ProtectedRoute>} />
+      <Route path="/my-fees" element={<ProtectedRoute><MyFees /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
