@@ -74,7 +74,7 @@ export default function Login() {
                     if (error) setError(`Demo ${d.label} account is not set up yet.`)
                     else navigate('/')
                   }}
-                  className="border border-board text-board rounded-md py-2 text-sm hover:bg-white disabled:opacity-60">
+                  className={`border border-board text-board rounded-md py-2 text-sm hover:bg-white disabled:opacity-60 ${d.wide ? "col-span-2" : ""}`}>
                   {d.label}
                 </button>
               ))}
