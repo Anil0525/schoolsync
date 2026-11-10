@@ -109,4 +109,5 @@ export const te = {
   'No active students in this section.': 'ఈ సెక్షన్‌లో యాక్టివ్ విద్యార్థులు లేరు.',
   'No class assigned to you yet. Ask the admin to assign you as class teacher (Teachers page).':
     'మీకు ఇంకా తరగతి కేటాయించలేదు. క్లాస్ టీచర్‌గా కేటాయించమని అడ్మిన్‌ను అడగండి (ఉపాధ్యాయులు పేజీ).',
+  Remind: 'గుర్తు చేయండి',
 }

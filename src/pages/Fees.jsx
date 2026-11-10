@@ -7,6 +7,7 @@ import { useAuth } from '../hooks/useAuth.jsx'
 import { today, niceDate } from '../lib/dates.js'
 import { inr, METHODS, METHOD_LABEL, STATUS, summarize, classLabel, receiptData } from '../lib/fees.js'
 import { downloadReceipt } from '../lib/receiptPdf.js'
+import { waNumber, reminderText, waLink } from '../lib/reminder.js'
 
 const input = 'border border-line rounded-md px-3 py-2 bg-white'
 const btn = 'bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 text-sm font-medium disabled:opacity-60'
@@ -24,6 +25,8 @@ export default function Fees() {
   const [sectionFilter, setSectionFilter] = useState('all')
   const [addOpen, setAddOpen] = useState(false)
   const [collectId, setCollectId] = useState(null)
+  const [parents, setParents] = useState({}) // student_id -> [{ full_name, phone }]
+  const [remindId, setRemindId] = useState(null)
 
   async function load() {
     const [s, f, p] = await Promise.all([
@@ -40,6 +43,18 @@ export default function Fees() {
     }
     setError('')
     setStudents(s.data || []); setFees(f.data || []); setPayments(p.data || [])
+    loadParents()
+  }
+  // parent phones for reminders; if 014 is not run yet this just stays empty and reminders can still be copied
+  async function loadParents() {
+    const { data: links, error: e1 } = await supabase.from('ss_parent_student').select('student_id, parent_id')
+    if (e1 || !links?.length) { setParents({}); return }
+    const ids = [...new Set(links.map((l) => l.parent_id))]
+    const { data: profs } = await supabase.from('ss_profiles').select('id, full_name, phone').in('id', ids)
+    const byProfile = Object.fromEntries((profs || []).map((x) => [x.id, x]))
+    const map = {}
+    links.forEach((l) => { if (byProfile[l.parent_id]) (map[l.student_id] ||= []).push(byProfile[l.parent_id]) })
+    setParents(map)
   }
   useEffect(() => { if (allowed) load() }, [allowed])
   const byId = useMemo(() => Object.fromEntries(students.map((s) => [s.id, s])), [students])
@@ -65,6 +80,10 @@ export default function Fees() {
   const collectFee = fees.find((f) => f.id === collectId)
   const collectRow = collectFee && byId[collectFee.student_id]
     ? { fee: collectFee, student: byId[collectFee.student_id], ...summarize(collectFee, payments) } : null
+
+  const remindFee = fees.find((f) => f.id === remindId)
+  const remindRow = remindFee && byId[remindFee.student_id]
+    ? { fee: remindFee, student: byId[remindFee.student_id], ...summarize(remindFee, payments) } : null
 
   async function removeFee(r) {
     if (r.payments.length) { setError('This fee already has payments, so it cannot be deleted.'); return }
@@ -134,6 +153,9 @@ export default function Fees() {
                   <button onClick={() => setCollectId(r.fee.id)} className="text-board underline underline-offset-4">
                     {r.balance > 0 ? 'Collect' : 'Receipts'}
                   </button>
+                  {r.status === 'overdue' && (
+                    <button onClick={() => setRemindId(r.fee.id)} className="text-mark underline underline-offset-4 ml-3">Remind</button>
+                  )}
                   {isAdmin && !r.payments.length && (
                     <button onClick={() => removeFee(r)} className="text-mark underline underline-offset-4 ml-3">Delete</button>
                   )}
@@ -151,6 +173,10 @@ export default function Fees() {
       {addOpen && (
         <AddFeeModal students={students} sections={sections} schoolId={profile.school_id}
           onClose={() => setAddOpen(false)} onDone={() => { setAddOpen(false); load() }} />
+      )}
+      {remindRow && (
+        <RemindModal row={remindRow} parents={parents[remindRow.student.id] || []} school={profile.ss_schools?.name}
+          onClose={() => setRemindId(null)} />
       )}
       {collectRow && (
         <CollectModal row={collectRow} payments={payments} school={profile.ss_schools?.name} schoolId={profile.school_id}
@@ -289,6 +315,54 @@ function CollectModal({ row, payments, school, schoolId, onClose, onDone }) {
         ))}
         {row.payments.length === 0 && <li className="py-2 text-muted">No payments yet</li>}
       </ul>
+    </Modal>
+  )
+}
+
+function RemindModal({ row, parents, school, onClose }) {
+  const [pi, setPi] = useState(0)
+  const parent = parents[pi]
+  const number = waNumber(parent?.phone)
+  const initial = reminderText({
+    school, parentName: parent?.full_name, studentName: row.student.full_name, className: classLabel(row.student),
+    fee: row.fee.title, balance: row.balance, dueDate: row.fee.due_date,
+  })
+  const [text, setText] = useState(initial)
+  const [copied, setCopied] = useState(false)
+
+  function pick(i) {
+    setPi(i); setCopied(false)
+    setText(reminderText({
+      school, parentName: parents[i]?.full_name, studentName: row.student.full_name, className: classLabel(row.student),
+      fee: row.fee.title, balance: row.balance, dueDate: row.fee.due_date,
+    }))
+  }
+  async function copy() {
+    try { await navigator.clipboard.writeText(text); setCopied(true) } catch { setCopied(false) }
+  }
+
+  return (
+    <Modal title="Fee reminder" onClose={onClose}>
+      <p className="text-sm text-muted mb-3">{row.student.full_name} · {row.fee.title} · balance {inr(row.balance)}</p>
+      {parents.length === 0 && (
+        <p className="text-sm text-mark mb-3">No parent account is linked to this student, so there is no phone number. You can still copy the message.</p>
+      )}
+      {parents.length > 1 && (
+        <select value={pi} onChange={(e) => pick(Number(e.target.value))} aria-label="Parent" className={`${input} w-full mb-3`}>
+          {parents.map((p, i) => <option key={i} value={i}>{p.full_name}{p.phone ? ` (${p.phone})` : ''}</option>)}
+        </select>
+      )}
+      {parent && !number && (
+        <p className="text-sm text-mark mb-3">{parent.full_name} has {parent.phone ? 'an invalid' : 'no'} phone number saved. Add a 10-digit mobile number to the parent account to use WhatsApp.</p>
+      )}
+      <label className="block text-sm mb-1" htmlFor="remind-text">Message</label>
+      <textarea id="remind-text" value={text} onChange={(e) => setText(e.target.value)} rows={8} className={`${input} w-full text-sm`} />
+      <div className="flex flex-wrap gap-2 mt-4">
+        {number && (
+          <a href={waLink(number, text)} target="_blank" rel="noreferrer" className={btn}>Open WhatsApp</a>
+        )}
+        <button onClick={copy} className="border border-board text-board rounded-md px-4 py-2 text-sm">{copied ? 'Copied' : 'Copy message'}</button>
+      </div>
     </Modal>
   )
 }

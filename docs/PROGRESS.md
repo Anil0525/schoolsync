@@ -62,5 +62,9 @@ MY CLASSES (teacher, /my-classes, no SQL needed): lists sections where ss_sectio
 today's attendance status, show/hide students, links to attendance (preselects section via ?section=), marks, homework.
 USER TESTED OK (2026-11-09): fixed 011, Report cards, Fees, Announcements, Homework, Telugu toggle, UDISE+, Admin users.
 
+FEE REMINDERS (needs SQL 014): Fees page shows Remind on overdue rows -> modal with editable message, Open WhatsApp (wa.me link, needs parent phone
+in ss_profiles.phone, 10-digit Indian mobile) or Copy message. 014 lets the accountant read ss_parent_student. No server, no cost. NOT yet tested by user.
+UDISE+ export: still waiting for official bulk-upload template headers from user.
+
 KNOWN NOTES: demo accounts are public so demo data can be re-seeded; school name shown is "Demo School"; Edge Functions need
 Verify JWT OFF because the project uses the new key system.
