@@ -3,7 +3,7 @@ import Modal from './Modal.jsx'
 import { createUser, genPassword } from '../lib/adminApi.js'
 
 const input = 'border border-line rounded-md px-3 py-2 bg-white w-full mt-1'
-const ROLE_LABEL = { teacher: 'Teacher', accountant: 'Accountant', student: 'Student', parent: 'Parent' }
+const ROLE_LABEL = { teacher: 'Teacher', principal: 'Principal', accountant: 'Accountant', student: 'Student', parent: 'Parent' }
 const classLabel = (s) => `${s?.ss_sections?.ss_classes?.name || ''} ${s?.ss_sections?.name || ''}`.trim()
 
 // fixedRole: lock the role (Teachers page). students: all students with user_id, for linking.

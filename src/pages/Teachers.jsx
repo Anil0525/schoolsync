@@ -4,9 +4,11 @@ import Layout from '../components/Layout.jsx'
 import CreateUserModal from '../components/CreateUserModal.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
+import { useI18n } from '../lib/i18n.jsx'
 
 export default function Teachers() {
   const { profile } = useAuth()
+  const { t: tr } = useI18n()
   const allowed = profile?.role === 'admin'
   const [teachers, setTeachers] = useState([])
   const [sections, setSections] = useState([])
@@ -40,35 +42,35 @@ export default function Teachers() {
       <div className="grid md:grid-cols-2 gap-6">
         <section className="bg-white border border-line rounded-md p-5">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-display text-xl font-semibold">Teachers</h2>
-            <button onClick={() => setOpen(true)} className="bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 text-sm">Add teacher</button>
+            <h2 className="font-display text-xl font-semibold">{tr('Teachers')}</h2>
+            <button onClick={() => setOpen(true)} className="bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 text-sm">{tr('Add teacher')}</button>
           </div>
           <ul className="divide-y divide-line text-sm">
             {teachers.map((t) => (
               <li key={t.id} className="py-2">
-                {t.full_name || '(no name)'}
+                {t.full_name || tr('(no name)')}
                 <span className="block text-xs text-muted">{[t.email, t.phone].filter(Boolean).join(' · ')}</span>
               </li>
             ))}
-            {teachers.length === 0 && <li className="py-2 text-muted">No teachers yet</li>}
+            {teachers.length === 0 && <li className="py-2 text-muted">{tr('No teachers yet')}</li>}
           </ul>
         </section>
 
         <section className="bg-white border border-line rounded-md p-5">
-          <h2 className="font-display text-xl font-semibold mb-3">Class teachers</h2>
+          <h2 className="font-display text-xl font-semibold mb-3">{tr('Class teachers')}</h2>
           <ul className="divide-y divide-line text-sm">
             {sections.map((s) => (
               <li key={s.id} className="py-2 flex items-center justify-between gap-3">
                 <span>{`${s.ss_classes?.name || ''} ${s.name}`.trim()}</span>
                 <select value={s.class_teacher_id || ''} onChange={(e) => assign(s.id, e.target.value)}
-                  aria-label={`Class teacher of ${s.ss_classes?.name || ''} ${s.name}`}
+                  aria-label={`${tr('Class teacher of')} ${s.ss_classes?.name || ''} ${s.name}`}
                   className="border border-line rounded-md px-2 py-1 bg-white">
-                  <option value="">Not assigned</option>
+                  <option value="">{tr('Not assigned')}</option>
                   {teachers.map((t) => <option key={t.id} value={t.id}>{t.full_name || t.email}</option>)}
                 </select>
               </li>
             ))}
-            {sections.length === 0 && <li className="py-2 text-muted">Create classes and sections first</li>}
+            {sections.length === 0 && <li className="py-2 text-muted">{tr('Create classes and sections first')}</li>}
           </ul>
         </section>
       </div>

@@ -13,7 +13,7 @@ const when = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric'
 export default function Announcements() {
   const { profile } = useAuth()
   const { t } = useI18n()
-  const canPost = ['admin', 'teacher'].includes(profile?.role)
+  const canPost = ['admin', 'principal', 'teacher'].includes(profile?.role)
   const [items, setItems] = useState(null)
   const [sections, setSections] = useState([])
   const [open, setOpen] = useState(false)
@@ -36,7 +36,7 @@ export default function Announcements() {
   useEffect(() => { load() }, [])
 
   const secById = Object.fromEntries(sections.map((s) => [s.id, s]))
-  const canDelete = (a) => profile?.role === 'admin' || (profile?.role === 'teacher' && a.created_by === profile.id)
+  const canDelete = (a) => profile?.role === 'admin' || (['teacher', 'principal'].includes(profile?.role) && a.created_by === profile.id)
 
   async function remove(a) {
     if (!confirm(`Delete "${a.title}"?`)) return

@@ -46,7 +46,7 @@ export default function Users() {
       <div className="flex flex-wrap items-center gap-3 mb-5">
         <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} aria-label="Role filter" className={input}>
           <option value="all">All roles</option>
-          {['admin', 'teacher', 'accountant', 'student', 'parent'].map((r) => <option key={r} value={r}>{r}</option>)}
+          {['admin', 'principal', 'teacher', 'accountant', 'student', 'parent'].map((r) => <option key={r} value={r}>{r}</option>)}
         </select>
         <button onClick={() => setAddOpen(true)} className="ml-auto bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 text-sm">Add user</button>
       </div>

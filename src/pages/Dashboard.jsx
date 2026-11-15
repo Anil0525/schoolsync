@@ -4,7 +4,8 @@ import { useI18n } from '../lib/i18n.jsx'
 import LangToggle from '../components/LangToggle.jsx'
 
 const MODULES = {
-  admin: ['Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export'],
+  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export'],
+  principal: ['Overview', 'Announcements', 'Homework'],
   teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards', 'Announcements', 'Homework'],
   accountant: ['Fees & collection', 'Announcements'],
   student: ['My attendance', 'My marks', 'My fees', 'Homework', 'Announcements'],
@@ -12,6 +13,7 @@ const MODULES = {
 }
 
 const LINKS = {
+  Overview: '/overview',
   Students: '/students',
   'Classes & sections': '/classes',
   Attendance: '/attendance',

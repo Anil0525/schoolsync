@@ -3,6 +3,7 @@ import { Navigate, useSearchParams } from 'react-router-dom'
 import Layout from '../components/Layout.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
+import { useI18n } from '../lib/i18n.jsx'
 import { today } from '../lib/dates.js'
 
 const STATUSES = [
@@ -14,6 +15,7 @@ const STATUSES = [
 
 export default function Attendance() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const [params] = useSearchParams()
   const wanted = params.get('section')
   const [sections, setSections] = useState([])
@@ -53,7 +55,7 @@ export default function Attendance() {
       existing.forEach((r) => { map[r.student_id] = r.status })
       setStudents(list)
       setMarks(map)
-      if (existing.length) setMsg({ text: 'Attendance for this date was already saved. You can edit and save again.', bad: false })
+      if (existing.length) setMsg({ text: t('Attendance for this date was already saved. You can edit and save again.'), bad: false })
     }
     load()
     return () => { live = false }
@@ -74,43 +76,43 @@ export default function Attendance() {
     }))
     const { error } = await supabase.from('ss_attendance').upsert(rows, { onConflict: 'student_id,date' })
     setBusy(false)
-    setMsg(error ? { text: error.message, bad: true } : { text: `Saved. Parents can see this now (${counts.absent} absent).`, bad: false })
+    setMsg(error ? { text: error.message, bad: true } : { text: `${t('Saved. Parents can see this now.')} (${counts.absent} ${t('absent')})`, bad: false })
   }
 
   return (
     <Layout title="Mark attendance">
       <div className="flex flex-wrap gap-3 mb-5">
         <select value={sectionId} onChange={(e) => setSectionId(e.target.value)} className="border border-line rounded-md px-3 py-2 bg-white">
-          {sections.length === 0 && <option value="">No sections yet</option>}
+          {sections.length === 0 && <option value="">{t('No sections yet')}</option>}
           {sections.map((s) => <option key={s.id} value={s.id}>{`${s.ss_classes?.name || ''} ${s.name}`.trim()}</option>)}
         </select>
         <input type="date" value={date} max={today()} onChange={(e) => e.target.value && setDate(e.target.value)}
           className="border border-line rounded-md px-3 py-2 bg-white" />
         <button onClick={() => setMarks(Object.fromEntries(students.map((s) => [s.id, 'present'])))}
-          className="border border-board text-board rounded-md px-4 py-2">Mark all present</button>
+          className="border border-board text-board rounded-md px-4 py-2">{t('Mark all present')}</button>
       </div>
 
-      {sections.length === 0 && <p className="text-muted">Create classes and sections first (Classes & sections), then add students.</p>}
-      {sectionId && students.length === 0 && <p className="text-muted">No active students in this section.</p>}
+      {sections.length === 0 && <p className="text-muted">{t('Create classes and sections first (Classes & sections), then add students.')}</p>}
+      {sectionId && students.length === 0 && <p className="text-muted">{t('No active students in this section.')}</p>}
 
       {students.length > 0 && (
         <>
           <p className="text-sm text-muted mb-3">
-            {students.length} students: {counts.present} present, {counts.absent} absent, {counts.late} late, {counts.leave} on leave
+            {students.length} {t('students')}: {counts.present} {t('present')}, {counts.absent} {t('absent')}, {counts.late} {t('late')}, {counts.leave} {t('on leave')}
           </p>
           <ul className="bg-white border border-line rounded-md divide-y divide-line">
             {students.map((s) => (
               <li key={s.id} className="p-3 flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <p className="font-medium">{s.full_name}</p>
-                  <p className="text-xs text-muted">Adm. no {s.admission_no}</p>
+                  <p className="text-xs text-muted">{t('Adm. no')} {s.admission_no}</p>
                 </div>
                 <div className="flex gap-1.5">
                   {STATUSES.map((st) => (
                     <button key={st.key} onClick={() => setMarks({ ...marks, [s.id]: st.key })}
                       aria-pressed={marks[s.id] === st.key}
                       className={`px-3 py-1.5 rounded-md border text-sm ${marks[s.id] === st.key ? st.on : 'bg-white border-line text-ink'}`}>
-                      {st.label}
+                      {t(st.label)}
                     </button>
                   ))}
                 </div>
@@ -119,7 +121,7 @@ export default function Attendance() {
           </ul>
           {msg.text && <p className={`mt-4 text-sm ${msg.bad ? 'text-mark' : 'text-board'}`}>{msg.text}</p>}
           <button onClick={save} disabled={busy} className="mt-4 bg-board hover:bg-board-dark text-chalk rounded-md px-6 py-2.5 font-medium disabled:opacity-60">
-            {busy ? 'Saving...' : 'Save attendance'}
+            {busy ? t('Saving…') : t('Save attendance')}
           </button>
         </>
       )}

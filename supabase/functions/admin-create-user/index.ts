@@ -10,7 +10,7 @@ const cors = {
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } })
 
-const ROLES = ['teacher', 'accountant', 'student', 'parent'] // admin is never created from the UI
+const ROLES = ['teacher', 'principal', 'accountant', 'student', 'parent'] // admin is never created from the UI
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
     const fullName = String(b.full_name ?? '').trim()
     const phone = String(b.phone ?? '').trim() || null
     const role = String(b.role ?? '')
-    if (!ROLES.includes(role)) return json({ error: 'Role must be teacher, accountant, student or parent.' }, 400)
+    if (!ROLES.includes(role)) return json({ error: 'Role must be teacher, principal, accountant, student or parent.' }, 400)
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: 'Enter a valid email.' }, 400)
     if (password.length < 8) return json({ error: 'Password must be at least 8 characters.' }, 400)
     if (!fullName) return json({ error: 'Enter the full name.' }, 400)

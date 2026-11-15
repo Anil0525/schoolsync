@@ -31,7 +31,8 @@ te.js), src/hooks/useAuth.jsx, src/components (Layout, Modal, ProtectedRoute, Cr
 Dashboard, MyClasses, Classes, Students, Attendance, MyAttendance, Exams, MarksEntry, ReportCards, MyMarks, Fees, MyFees, Udise, Teachers,
 Users, Announcements, Homework), supabase/migrations 001 to 013, supabase/functions/admin-create-user/index.ts,
 public/fonts (Noto Sans Telugu subset for PDFs), README.md (full, with mermaid diagrams), docs/screenshots.
-Demo users, password Demo@2026: admin@, teacher@, accountant@, student@, parent@ schoolsync-demo.com. Real admin account exists
+Demo users, password Demo@2026: admin@, principal@, teacher@, accountant@, parent@ schoolsync-demo.com (login page no longer shows student@; the
+account can still exist). Real admin account exists
 separately (Anil's own). Demo data re-seed: re-run 004, 006, 007, 009, 010, 013 (safe to re-run).
 
 DONE AND WORKING (tested live): login + role dashboards; classes/sections; students CRUD + CSV; attendance + Realtime; marks module,
@@ -40,8 +41,9 @@ BUILT, USER STILL TO CONFIRM (ask which SQL he ran and live test results):
  - SQL 011 was FIXED on 2026-11-09 (first version caused RLS recursion, so Report cards showed "No active students"). User must
    run the fixed version (ss_student_school function + policy). Then re-test Report cards, Fees, Attendance, My marks.
  - Fees (008, 009): per-student custom fees (one student or whole class), payments, receipt PDF, MOCK online payment (ss_mock_pay).
- - UDISE+ (010): /udise readiness % and Excel export (columns follow SDMS Students List). Still need the official bulk-upload
-   template headers from him to match the export exactly.
+ - UDISE+ (010): /udise readiness % and Excel export. Export now uses the 23 exact SDMS headers he sent (2026-11-10); portal-filled and
+   Aadhaar columns are empty; DOB is not in that sheet so it is no longer in the readiness list. Value formats (Yes/No, Male, class names)
+   are still our guess until he confirms against a real sample row.
  - Admin users (011 + Edge Function admin-create-user deployed with "Verify JWT" OFF; blocks demo accounts): /teachers, /users.
  - Announcements + Homework (012, 013).
  - Telugu/English toggle (src/lib/te.js; translated: login, dashboard, titles, announcements, homework, student/parent attendance,
@@ -64,7 +66,14 @@ USER TESTED OK (2026-11-09): fixed 011, Report cards, Fees, Announcements, Homew
 
 FEE REMINDERS (needs SQL 014): Fees page shows Remind on overdue rows -> modal with editable message, Open WhatsApp (wa.me link, needs parent phone
 in ss_profiles.phone, 10-digit Indian mobile) or Copy message. 014 lets the accountant read ss_parent_student. No server, no cost. NOT yet tested by user.
-UDISE+ export: still waiting for official bulk-upload template headers from user.
+GUARDIAN MOBILE (needs SQL 015): ss_students.guardian_phone, field in Add/Edit student (10-digit validated), Mobile column in list,
+guardian_phone in CSV import/template. Fee reminders use linked parent accounts first, then this number.
+TELUGU (batch 2026-11-10): now also Attendance, Enter marks, Report cards, Classes, Exams, Teachers, Students, Fees (incl. modals; Modal Close
+button) and the WhatsApp fee reminder text (Telugu when the toggle is Telugu). Still English: Users, UDISE+, CreateUserModal.
+PRINCIPAL ROLE (016 + 017, 016 must be run ALONE first; create principal@schoolsync-demo.com in Supabase Auth before 017): read-only /overview (attendance
+today, class-wise table, fees summary, recent announcements) plus can post/delete own announcements; Homework read-only. Edge Function ROLES now
+includes principal (redeploy admin-create-user to create principals from the UI). Demo admin renamed Demo Admin.
+PENDING SQL to run before using this batch: 014_fee_reminders.sql, 015_guardian_phone.sql, 016, 017. vite.config.js splits react + supabase into vendor chunks (500 kB warning gone).
 
 KNOWN NOTES: demo accounts are public so demo data can be re-seeded; school name shown is "Demo School"; Edge Functions need
 Verify JWT OFF because the project uses the new key system.

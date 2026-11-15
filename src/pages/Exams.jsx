@@ -3,11 +3,13 @@ import { Navigate } from 'react-router-dom'
 import Layout from '../components/Layout.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
+import { useI18n } from '../lib/i18n.jsx'
 
 const input = 'border border-line rounded-md px-3 py-2 bg-white'
 
 export default function Exams() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const [subjects, setSubjects] = useState([])
   const [exams, setExams] = useState([])
   const [subject, setSubject] = useState('')
@@ -28,7 +30,7 @@ export default function Exams() {
   async function run(p) {
     setError('')
     const { error } = await p
-    if (error) setError(error.message.includes('duplicate') ? 'That name already exists.' : error.message)
+    if (error) setError(error.message.includes('duplicate') ? t('That name already exists.') : error.message)
     else load()
   }
 
@@ -37,46 +39,46 @@ export default function Exams() {
       {error && <p className="text-mark text-sm mb-4">{error}</p>}
       <div className="grid md:grid-cols-2 gap-6">
         <section className="bg-white border border-line rounded-md p-5">
-          <h2 className="font-display text-xl font-semibold mb-3">Subjects</h2>
+          <h2 className="font-display text-xl font-semibold mb-3">{t('Subjects')}</h2>
           <form className="flex gap-2 mb-4" onSubmit={(e) => { e.preventDefault(); if (subject.trim()) { run(supabase.from('ss_subjects').insert({ school_id: profile.school_id, name: subject.trim() })); setSubject('') } }}>
-            <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="e.g. Maths" className={`${input} flex-1`} />
-            <button className="bg-board text-chalk rounded-md px-4">Add</button>
+            <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={t('e.g. Maths')} className={`${input} flex-1`} />
+            <button className="bg-board text-chalk rounded-md px-4">{t('Add')}</button>
           </form>
           <ul className="flex flex-wrap gap-2">
             {subjects.map((s) => (
               <li key={s.id} className="border border-line rounded-md pl-3 pr-2 py-1 text-sm flex items-center gap-2">
                 {s.name}
-                <button aria-label={`Delete ${s.name}`} className="text-mark" onClick={() => confirm(`Delete ${s.name} and its marks?`) && run(supabase.from('ss_subjects').delete().eq('id', s.id))}>x</button>
+                <button aria-label={`${t('Delete')} ${s.name}`} className="text-mark" onClick={() => confirm(`${s.name}: ${t('Delete this subject and its marks?')}`) && run(supabase.from('ss_subjects').delete().eq('id', s.id))}>x</button>
               </li>
             ))}
-            {subjects.length === 0 && <li className="text-sm text-muted">No subjects yet</li>}
+            {subjects.length === 0 && <li className="text-sm text-muted">{t('No subjects yet')}</li>}
           </ul>
         </section>
 
         <section className="bg-white border border-line rounded-md p-5">
-          <h2 className="font-display text-xl font-semibold mb-3">Exams</h2>
+          <h2 className="font-display text-xl font-semibold mb-3">{t('Exams')}</h2>
           <form className="flex flex-wrap gap-2 mb-4" onSubmit={(e) => { e.preventDefault(); if (exam.name.trim()) { run(supabase.from('ss_exams').insert({ school_id: profile.school_id, name: exam.name.trim(), max_marks: Number(exam.max_marks) || 100 })); setExam({ name: '', max_marks: 100 }) } }}>
-            <input value={exam.name} onChange={(e) => setExam({ ...exam, name: e.target.value })} placeholder="e.g. Half-Yearly" className={`${input} flex-1 min-w-32`} />
-            <input type="number" min="1" value={exam.max_marks} onChange={(e) => setExam({ ...exam, max_marks: e.target.value })} aria-label="Maximum marks per subject" className={`${input} w-24`} />
-            <button className="bg-board text-chalk rounded-md px-4">Add</button>
+            <input value={exam.name} onChange={(e) => setExam({ ...exam, name: e.target.value })} placeholder={t('e.g. Half-Yearly')} className={`${input} flex-1 min-w-32`} />
+            <input type="number" min="1" value={exam.max_marks} onChange={(e) => setExam({ ...exam, max_marks: e.target.value })} aria-label={t('Maximum marks per subject')} className={`${input} w-24`} />
+            <button className="bg-board text-chalk rounded-md px-4">{t('Add')}</button>
           </form>
-          <p className="text-xs text-muted mb-3">The number is the maximum marks per subject.</p>
+          <p className="text-xs text-muted mb-3">{t('The number is the maximum marks per subject.')}</p>
           <ul className="divide-y divide-line">
             {exams.map((x) => (
               <li key={x.id} className="py-2 flex items-center justify-between gap-2 text-sm">
-                <span>{x.name} <span className="text-muted">(out of {x.max_marks})</span></span>
+                <span>{x.name} <span className="text-muted">({t('out of')} {x.max_marks})</span></span>
                 <span className="flex items-center gap-3">
                   <button onClick={() => run(supabase.from('ss_exams').update({ published: !x.published }).eq('id', x.id))}
                     className={`underline underline-offset-4 ${x.published ? 'text-board' : 'text-muted'}`}>
-                    {x.published ? 'Published' : 'Hidden'}
+                    {x.published ? t('Published') : t('Hidden')}
                   </button>
-                  <button className="text-mark underline underline-offset-4" onClick={() => confirm(`Delete ${x.name} and all its marks?`) && run(supabase.from('ss_exams').delete().eq('id', x.id))}>Delete</button>
+                  <button className="text-mark underline underline-offset-4" onClick={() => confirm(`${x.name}: ${t('Delete this exam and all its marks?')}`) && run(supabase.from('ss_exams').delete().eq('id', x.id))}>{t('Delete')}</button>
                 </span>
               </li>
             ))}
-            {exams.length === 0 && <li className="text-sm text-muted py-2">No exams yet</li>}
+            {exams.length === 0 && <li className="text-sm text-muted py-2">{t('No exams yet')}</li>}
           </ul>
-          <p className="text-xs text-muted mt-3">Students and parents see an exam only after you publish it.</p>
+          <p className="text-xs text-muted mt-3">{t('Students and parents see an exam only after you publish it.')}</p>
         </section>
       </div>
     </Layout>

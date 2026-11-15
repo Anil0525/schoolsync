@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import Layout from '../components/Layout.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
+import { useI18n } from '../lib/i18n.jsx'
 import { buildResults } from '../lib/results.js'
 import { downloadReportCards } from '../lib/reportPdf.js'
 
@@ -10,6 +11,7 @@ const sel = 'border border-line rounded-md px-3 py-2 bg-white'
 
 export default function ReportCards() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const allowed = profile && ['admin', 'teacher'].includes(profile.role)
   const [exams, setExams] = useState([])
   const [sections, setSections] = useState([])
@@ -75,33 +77,33 @@ export default function ReportCards() {
   return (
     <Layout title="Report cards">
       <div className="flex flex-wrap gap-3 mb-5">
-        <select value={examId} onChange={(e) => setExamId(e.target.value)} className={sel} aria-label="Exam">{exams.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</select>
-        <select value={sectionId} onChange={(e) => setSectionId(e.target.value)} className={sel} aria-label="Class">{sections.map((s) => <option key={s.id} value={s.id}>{`${s.ss_classes?.name || ''} ${s.name}`.trim()}</option>)}</select>
+        <select value={examId} onChange={(e) => setExamId(e.target.value)} className={sel} aria-label={t('Exam')}>{exams.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</select>
+        <select value={sectionId} onChange={(e) => setSectionId(e.target.value)} className={sel} aria-label={t('Class')}>{sections.map((s) => <option key={s.id} value={s.id}>{`${s.ss_classes?.name || ''} ${s.name}`.trim()}</option>)}</select>
         <button disabled={!results.some((r) => r.hasMarks)}
           onClick={() => downloadReportCards(results.filter((r) => r.hasMarks).map(card), `${safe(className)}_${safe(exam.name)}_report_cards.pdf`)}
-          className="bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 disabled:opacity-50">Download all (one PDF)</button>
+          className="bg-board hover:bg-board-dark text-chalk rounded-md px-4 py-2 disabled:opacity-50">{t('Download all (one PDF)')}</button>
       </div>
 
-      {exams.length === 0 && <p className="text-muted">Create an exam first (Exams & subjects).</p>}
-      {exam && results.length === 0 && <p className="text-muted">No active students in this class.</p>}
+      {exams.length === 0 && <p className="text-muted">{t('Create an exam first (Exams & subjects).')}</p>}
+      {exam && results.length === 0 && <p className="text-muted">{t('No active students in this class.')}</p>}
 
       {results.length > 0 && (
         <div className="overflow-x-auto bg-white border border-line rounded-md">
           <table className="w-full text-sm">
             <thead className="text-left text-muted border-b border-line">
-              <tr>{['Rank', 'Name', 'Total', '%', 'Grade', 'Attendance', ''].map((h) => <th key={h} className="px-3 py-2 font-medium">{h}</th>)}</tr>
+              <tr>{['Rank', 'Name', 'Total', '%', 'Grade', 'Attendance', ''].map((h) => <th key={h} className="px-3 py-2 font-medium">{t(h)}</th>)}</tr>
             </thead>
             <tbody>
               {[...results].sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9)).map((r) => (
                 <tr key={r.student.id} className="border-b border-line last:border-0">
                   <td className="px-3 py-2">{r.rank ?? '-'}</td>
                   <td className="px-3 py-2">{r.student.full_name}</td>
-                  <td className="px-3 py-2">{r.hasMarks ? `${r.total} / ${r.maxTotal}` : 'No marks'}</td>
+                  <td className="px-3 py-2">{r.hasMarks ? `${r.total} / ${r.maxTotal}` : t('No marks')}</td>
                   <td className="px-3 py-2">{r.hasMarks ? r.pct : '-'}</td>
                   <td className="px-3 py-2">{r.grade}</td>
                   <td className="px-3 py-2">{attendance[r.student.id] == null ? '-' : `${attendance[r.student.id]}%`}</td>
                   <td className="px-3 py-2">
-                    {r.hasMarks && <button className="underline underline-offset-4" onClick={() => downloadReportCards([card(r)], `${safe(r.student.full_name)}_${safe(exam.name)}.pdf`)}>PDF</button>}
+                    {r.hasMarks && <button className="underline underline-offset-4" onClick={() => downloadReportCards([card(r)], `${safe(r.student.full_name)}_${safe(exam.name)}.pdf`)}>{t('PDF')}</button>}
                   </td>
                 </tr>
               ))}

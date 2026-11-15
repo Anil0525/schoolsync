@@ -1,12 +1,12 @@
 // UDISE+ readiness rules and export columns.
-// REQUIRED is our working list, based on the SDMS "Students List" columns. Adjust it after comparing with the official bulk-upload template.
+// EXPORT_HEAD is the exact column list (names and order) from the SDMS sheet the school gave us (2026-11-10).
+// REQUIRED is the set of those columns that the school itself must supply.
 export const filled = (v) => v !== null && v !== undefined && String(v).trim() !== ''
 
 export const REQUIRED = [
   ['full_name', 'Name'],
   ['gender', 'Gender'],
   ['section_id', 'Class & section'],
-  ['dob', 'Date of birth'],
   ['father_name', "Father's name"],
   ['mother_name', "Mother's name"],
   ['social_category', 'Social category'],
@@ -22,18 +22,21 @@ export function missingFields(s) {
   return m
 }
 
-// same order as the columns of the SDMS Students List (fields the school can supply; Aadhaar columns are left to the portal)
+// Exact headers and order of the SDMS sheet. Columns the portal fills itself, and Aadhaar details
+// (deliberately never stored here, enter them on the portal), are exported empty.
 export const EXPORT_HEAD = [
-  'Class', 'Section', 'Name', 'Gender', 'Date of Birth', 'Student PEN', 'Father Name', 'Mother Name',
-  'Social Category', 'Minority Group', 'BPL beneficiary', 'CWSN', 'Type of Impairments', 'Is Repeater', 'APAAR ID',
+  'Class', 'Section', 'Name', 'Gender', 'Initialised at SDMS', 'Student PEN', 'Student State Code', 'Father Name', 'Mother Name',
+  'Social Category', 'Minority Group', 'BPL beneficiary', 'CWSN', 'Type of Impairments', 'Is Repeater', 'Suspected Duplicate',
+  'Entry Status', 'AADHAAR No.', 'Name As per AADHAAR', 'AADHAAR Validation Status', 'MBU Status', 'APAAR ID', 'APAAR Status',
 ]
 
 const yn = (b) => (b ? 'Yes' : 'No')
 export function exportRow(s) {
   return [
     s.ss_sections?.ss_classes?.name || '', s.ss_sections?.name || '', s.full_name || '', s.gender || '',
-    s.dob || '', s.pen || '', s.father_name || '', s.mother_name || '',
+    '', s.pen || '', '', s.father_name || '', s.mother_name || '',
     s.social_category || '', s.minority ? (s.minority_group || 'Yes') : 'No', yn(s.bpl), yn(s.cwsn),
-    s.cwsn ? (s.impairment_type || '') : '', yn(s.is_repeater), s.apaar_id || '',
+    s.cwsn ? (s.impairment_type || '') : '', yn(s.is_repeater), '',
+    '', '', '', '', '', s.apaar_id || '', '',
   ]
 }

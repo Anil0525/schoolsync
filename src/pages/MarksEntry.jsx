@@ -3,12 +3,14 @@ import { Navigate } from 'react-router-dom'
 import Layout from '../components/Layout.jsx'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../hooks/useAuth.jsx'
+import { useI18n } from '../lib/i18n.jsx'
 import { parseCsv } from '../lib/csv.js'
 
 const sel = 'border border-line rounded-md px-3 py-2 bg-white'
 
 export default function MarksEntry() {
   const { profile } = useAuth()
+  const { t } = useI18n()
   const allowed = profile && ['admin', 'teacher'].includes(profile.role)
   const [exams, setExams] = useState([])
   const [sections, setSections] = useState([])
@@ -65,7 +67,7 @@ export default function MarksEntry() {
     for (const s of students) {
       const v = vals[s.id]
       if (v !== undefined && v !== '' && (isNaN(Number(v)) || Number(v) < 0 || Number(v) > max)) {
-        return setMsg({ text: `${s.full_name}: marks must be between 0 and ${max}.`, bad: true })
+        return setMsg({ text: `${s.full_name}: ${t('marks must be between 0 and')} ${max}.`, bad: true })
       }
     }
     setBusy(true)
@@ -76,7 +78,7 @@ export default function MarksEntry() {
       ? await supabase.from('ss_marks').upsert(rows, { onConflict: 'exam_id,student_id,subject_id' })
       : { error: null }
     setBusy(false)
-    setMsg(error ? { text: error.message, bad: true } : { text: `Saved marks for ${rows.length} students.`, bad: false })
+    setMsg(error ? { text: error.message, bad: true } : { text: `${t('Saved marks for')} ${rows.length} ${t('students')}.`, bad: false })
   }
 
   async function onCsv(e) {
@@ -93,39 +95,39 @@ export default function MarksEntry() {
       else { next[id] = r.marks ?? ''; ok++ }
     })
     setVals(next)
-    setMsg({ text: `${ok} rows filled from CSV. ${bad.length ? 'Not in this class: ' + bad.slice(0, 10).join(', ') + '. ' : ''}Check and press Save.`, bad: bad.length > 0 })
+    setMsg({ text: `${ok} ${t('rows filled from CSV.')} ${bad.length ? t('Not in this class:') + ' ' + bad.slice(0, 10).join(', ') + '. ' : ''}${t('Check and press Save.')}`, bad: bad.length > 0 })
   }
 
   const missing = exams.length === 0 || sections.length === 0 || subjects.length === 0
 
   return (
     <Layout title="Enter marks">
-      {missing && <p className="text-muted mb-4">Create at least one exam, subject, class and section first (Exams & subjects, Classes & sections).</p>}
+      {missing && <p className="text-muted mb-4">{t('Create at least one exam, subject, class and section first (Exams & subjects, Classes & sections).')}</p>}
       <div className="flex flex-wrap gap-3 mb-5">
-        <select value={examId} onChange={(e) => setExamId(e.target.value)} className={sel} aria-label="Exam">{exams.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</select>
-        <select value={sectionId} onChange={(e) => setSectionId(e.target.value)} className={sel} aria-label="Class">{sections.map((s) => <option key={s.id} value={s.id}>{`${s.ss_classes?.name || ''} ${s.name}`.trim()}</option>)}</select>
-        <select value={subjectId} onChange={(e) => setSubjectId(e.target.value)} className={sel} aria-label="Subject">{subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
-        <button onClick={() => fileRef.current.click()} className="border border-board text-board rounded-md px-4 py-2">Fill from CSV</button>
+        <select value={examId} onChange={(e) => setExamId(e.target.value)} className={sel} aria-label={t('Exam')}>{exams.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</select>
+        <select value={sectionId} onChange={(e) => setSectionId(e.target.value)} className={sel} aria-label={t('Class')}>{sections.map((s) => <option key={s.id} value={s.id}>{`${s.ss_classes?.name || ''} ${s.name}`.trim()}</option>)}</select>
+        <select value={subjectId} onChange={(e) => setSubjectId(e.target.value)} className={sel} aria-label={t('Subject')}>{subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
+        <button onClick={() => fileRef.current.click()} className="border border-board text-board rounded-md px-4 py-2">{t('Fill from CSV')}</button>
         <input ref={fileRef} type="file" accept=".csv" onChange={onCsv} className="hidden" />
       </div>
-      {exam && <p className="text-sm text-muted mb-3">Maximum marks: {exam.max_marks}. CSV columns: admission_no, marks. Leave blank if absent.</p>}
+      {exam && <p className="text-sm text-muted mb-3">{t('Maximum marks')}: {exam.max_marks}. {t('CSV columns: admission_no, marks. Leave blank if absent.')}</p>}
 
       {students.length > 0 && (
         <>
           <ul className="bg-white border border-line rounded-md divide-y divide-line">
             {students.map((s) => (
               <li key={s.id} className="p-3 flex items-center justify-between gap-3">
-                <div><p className="font-medium">{s.full_name}</p><p className="text-xs text-muted">Adm. no {s.admission_no}</p></div>
-                <input type="number" min="0" max={exam?.max_marks} step="0.5" value={vals[s.id] ?? ''} aria-label={`Marks for ${s.full_name}`}
+                <div><p className="font-medium">{s.full_name}</p><p className="text-xs text-muted">{t('Adm. no')} {s.admission_no}</p></div>
+                <input type="number" min="0" max={exam?.max_marks} step="0.5" value={vals[s.id] ?? ''} aria-label={`${t('Marks for')} ${s.full_name}`}
                   onChange={(e) => setVals({ ...vals, [s.id]: e.target.value })} className="border border-line rounded-md px-3 py-1.5 w-24 text-right bg-white" />
               </li>
             ))}
           </ul>
           {msg.text && <p className={`mt-4 text-sm ${msg.bad ? 'text-mark' : 'text-board'}`}>{msg.text}</p>}
-          <button onClick={save} disabled={busy} className="mt-4 bg-board hover:bg-board-dark text-chalk rounded-md px-6 py-2.5 font-medium disabled:opacity-60">{busy ? 'Saving...' : 'Save marks'}</button>
+          <button onClick={save} disabled={busy} className="mt-4 bg-board hover:bg-board-dark text-chalk rounded-md px-6 py-2.5 font-medium disabled:opacity-60">{busy ? t('Saving…') : t('Save marks')}</button>
         </>
       )}
-      {!missing && students.length === 0 && <p className="text-muted">No active students in this class.</p>}
+      {!missing && students.length === 0 && <p className="text-muted">{t('No active students in this class.')}</p>}
     </Layout>
   )
 }

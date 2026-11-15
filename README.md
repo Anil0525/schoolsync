@@ -31,10 +31,10 @@ Password for all demo accounts: `Demo@2026`
 
 | Role | Email |
 | --- | --- |
-| Admin (principal) | admin@schoolsync-demo.com |
+| Admin | admin@schoolsync-demo.com |
+| Principal (read-only overview) | principal@schoolsync-demo.com |
 | Teacher | teacher@schoolsync-demo.com |
 | Accountant | accountant@schoolsync-demo.com |
-| Student | student@schoolsync-demo.com |
 | Parent (2 children) | parent@schoolsync-demo.com |
 
 Demo accounts are public, so the demo data can be reset by anyone. They cannot create new users (the Edge Function blocks them).
@@ -77,7 +77,7 @@ flowchart LR
 
 - Every table has a `school_id` and Row Level Security, so each school only sees its own rows.
   Helper functions `ss_current_school_id()` and `ss_current_user_role()` are used in every policy.
-- Roles (`admin`, `teacher`, `accountant`, `student`, `parent`) are stored in `ss_profiles` and are never set from sign-up.
+- Roles (`admin`, `principal`, `teacher`, `accountant`, `student`, `parent`) are stored in `ss_profiles` and are never set from sign-up.
 - Students and parents can only read their own (or their children's) attendance, marks, fees, homework and announcements.
   Rank is computed in a `security definer` function that checks the caller is allowed to see that student.
 - Creating users needs the service role key, so it lives in the Edge Function `admin-create-user`. The function verifies
@@ -123,7 +123,7 @@ All tables use the `ss_` prefix so SchoolSync can share a Supabase project with 
 - Online payment is test mode (no real money). Razorpay and due reminders are the next steps.
 - Telugu in PDFs uses an embedded Noto Sans Telugu subset. jsPDF cannot shape complex scripts, so some conjuncts appear in
   their long form. The web UI renders Telugu normally.
-- The UDISE+ Excel follows the columns of the SDMS Students List. Check it against the portal's bulk-upload template before uploading.
+- The UDISE+ Excel uses the exact column names and order of the SDMS sheet (23 columns). Columns the portal fills itself, and the Aadhaar columns, are exported empty: Aadhaar numbers are never stored in SchoolSync.
 - The Telugu translation covers the main screens (login, dashboard, announcements, homework and the student and parent views);
   other admin screens are English. Add keys in `src/lib/te.js` to translate more.
 

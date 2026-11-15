@@ -9,7 +9,15 @@ export function waNumber(phone) {
   return /^[6-9]\d{9}$/.test(d) ? '91' + d : null
 }
 
-export function reminderText({ school, parentName, studentName, className, fee, balance, dueDate }) {
+export function reminderText({ school, parentName, studentName, className, fee, balance, dueDate, lang }) {
+  if (lang === 'te') {
+    return [
+      `${parentName || 'తల్లిదండ్రులు'} గారికి నమస్కారం,`,
+      `${school || 'పాఠశాల'} నుండి చిన్న గుర్తింపు: ${studentName}${className ? ` (${className})` : ''} యొక్క "${fee}" ఫీజులో ${inr(balance)} బాకీ ఉంది. చెల్లించాల్సిన తేదీ ${niceDate(dueDate)}.`,
+      'దయచేసి వీలైనంత త్వరగా పాఠశాల కార్యాలయంలో చెల్లించండి. ఇప్పటికే చెల్లించి ఉంటే ఈ సందేశాన్ని పట్టించుకోకండి.',
+      'ధన్యవాదాలు.',
+    ].join('\n\n')
+  }
   return [
     `Dear ${parentName || 'Parent'},`,
     `This is a gentle reminder from ${school || 'the school'}: the fee "${fee}" of ${studentName}${className ? ` (${className})` : ''} `
