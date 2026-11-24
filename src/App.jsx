@@ -22,6 +22,10 @@ const Announcements = lazy(() => import('./pages/Announcements.jsx'))
 const Homework = lazy(() => import('./pages/Homework.jsx'))
 const MyClasses = lazy(() => import('./pages/MyClasses.jsx'))
 const Overview = lazy(() => import('./pages/Overview.jsx'))
+const Calendar = lazy(() => import('./pages/Calendar.jsx'))
+const Routine = lazy(() => import('./pages/Routine.jsx'))
+const Syllabus = lazy(() => import('./pages/Syllabus.jsx'))
+const Birthdays = lazy(() => import('./pages/Birthdays.jsx'))
 
 export default function App() {
   return (
@@ -46,6 +50,10 @@ export default function App() {
       <Route path="/homework" element={<ProtectedRoute><Homework /></ProtectedRoute>} />
       <Route path="/overview" element={<ProtectedRoute><Overview /></ProtectedRoute>} />
       <Route path="/my-classes" element={<ProtectedRoute><MyClasses /></ProtectedRoute>} />
+      <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
+      <Route path="/routine" element={<ProtectedRoute><Routine /></ProtectedRoute>} />
+      <Route path="/syllabus" element={<ProtectedRoute><Syllabus /></ProtectedRoute>} />
+      <Route path="/birthdays" element={<ProtectedRoute><Birthdays /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

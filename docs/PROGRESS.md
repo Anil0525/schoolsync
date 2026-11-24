@@ -77,3 +77,12 @@ PENDING SQL to run before using this batch: 014_fee_reminders.sql, 015_guardian_
 
 KNOWN NOTES: demo accounts are public so demo data can be re-seeded; school name shown is "Demo School"; Edge Functions need
 Verify JWT OFF because the project uses the new key system.
+
+BATCH 1 (2026-11-24, rebuilt after a sandbox reset in the earlier chat; the zip had only up to SQL 017). Needs SQL 018 (run it) and optionally 019 (demo data):
+ - School calendar /calendar: month grid (Mon first), holiday/event/exam with date ranges; admin + principal add/delete; everyone reads.
+ - Class routine /routine: admin edits a section's weekly grid (Mon-Sat, 8 periods); DB blocks a teacher being in two sections in one period; teacher gets "My timetable"; student/parent see own class.
+ - Syllabus /syllabus: class + subject topics, bulk add (one per line), admin/teacher tick done, progress %.
+ - Birthdays /birthdays (admin, teacher, principal): today + next 30 days from ss_students.dob, wish card PNG (English/Telugu, canvas), WhatsApp share link (no number, user picks the chat).
+ - Telugu keys added in te.js. NOT yet tested live by the user.
+STILL TO REBUILD from the old chat: Batch 2 = Hall tickets, Certificates (TC/Character/Bonafide/Experience, numbered register), Document library (private upload 10 MB, visibility). Then Batch 3 onwards (late fee, expenses, payroll ...).
+
