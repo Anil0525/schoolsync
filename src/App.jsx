@@ -26,6 +26,9 @@ const Calendar = lazy(() => import('./pages/Calendar.jsx'))
 const Routine = lazy(() => import('./pages/Routine.jsx'))
 const Syllabus = lazy(() => import('./pages/Syllabus.jsx'))
 const Birthdays = lazy(() => import('./pages/Birthdays.jsx'))
+const HallTickets = lazy(() => import('./pages/HallTickets.jsx'))
+const Certificates = lazy(() => import('./pages/Certificates.jsx'))
+const Documents = lazy(() => import('./pages/Documents.jsx'))
 
 export default function App() {
   return (
@@ -54,6 +57,9 @@ export default function App() {
       <Route path="/routine" element={<ProtectedRoute><Routine /></ProtectedRoute>} />
       <Route path="/syllabus" element={<ProtectedRoute><Syllabus /></ProtectedRoute>} />
       <Route path="/birthdays" element={<ProtectedRoute><Birthdays /></ProtectedRoute>} />
+      <Route path="/hall-tickets" element={<ProtectedRoute><HallTickets /></ProtectedRoute>} />
+      <Route path="/certificates" element={<ProtectedRoute><Certificates /></ProtectedRoute>} />
+      <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

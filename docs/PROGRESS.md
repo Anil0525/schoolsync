@@ -84,5 +84,10 @@ BATCH 1 (2026-11-24, rebuilt after a sandbox reset in the earlier chat; the zip 
  - Syllabus /syllabus: class + subject topics, bulk add (one per line), admin/teacher tick done, progress %.
  - Birthdays /birthdays (admin, teacher, principal): today + next 30 days from ss_students.dob, wish card PNG (English/Telugu, canvas), WhatsApp share link (no number, user picks the chat).
  - Telugu keys added in te.js. NOT yet tested live by the user.
-STILL TO REBUILD from the old chat: Batch 2 = Hall tickets, Certificates (TC/Character/Bonafide/Experience, numbered register), Document library (private upload 10 MB, visibility). Then Batch 3 onwards (late fee, expenses, payroll ...).
-
+BATCH 1 TESTED OK by the user (2026-11-24).
+BATCH 2 (2026-11-24, needs SQL 020, 021, optional 022; run 021 as its own query):
+ - Hall tickets /hall-tickets: admin builds exam schedule per class (ss_exam_schedule, independent of ss_exams so unpublished exams work); admin/teacher/principal download one student or the whole class as one PDF; student/parent download their own.
+ - Certificates /certificates (admin + principal): bonafide, character, transfer, experience. Numbered by function ss_issue_certificate (TC/CC/BC/EC/<year>/0001, advisory lock, no direct inserts), register with search and "Download again".
+ - Documents /documents: private bucket ss-documents (10 MB), category, visibility (everyone/staff/parents/students) enforced by RLS on ss_documents and on storage.objects; signed URL (60 s) download; admin/principal upload and delete.
+ - Telugu keys added. NOT yet tested live by the user.
+NEXT: test Batch 2, then Batch 3 (late fee calculation, school expenses/budgeting, staff payroll + salary slip), then Batch 4 onwards (staff attendance, gate log, admissions, inventory, notifications ...). Skip hardware/paid-key items (Batch 7) until the end.

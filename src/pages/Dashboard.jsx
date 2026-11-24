@@ -4,12 +4,12 @@ import { useI18n } from '../lib/i18n.jsx'
 import LangToggle from '../components/LangToggle.jsx'
 
 const MODULES = {
-  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export', 'School calendar', 'Class routine', 'Syllabus', 'Birthdays'],
-  principal: ['Overview', 'Announcements', 'Homework', 'School calendar', 'Birthdays'],
-  teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards', 'Announcements', 'Homework', 'My timetable', 'Syllabus', 'School calendar', 'Birthdays'],
-  accountant: ['Fees & collection', 'Announcements', 'School calendar'],
-  student: ['My attendance', 'My marks', 'My fees', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar'],
-  parent: ['Child attendance', 'Child marks', 'Fees & receipts', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar'],
+  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export', 'School calendar', 'Class routine', 'Syllabus', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents'],
+  principal: ['Overview', 'Announcements', 'Homework', 'School calendar', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents'],
+  teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards', 'Announcements', 'Homework', 'My timetable', 'Syllabus', 'School calendar', 'Birthdays', 'Hall tickets', 'Documents'],
+  accountant: ['Fees & collection', 'Announcements', 'School calendar', 'Documents'],
+  student: ['My attendance', 'My marks', 'My fees', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar', 'Hall tickets', 'Documents'],
+  parent: ['Child attendance', 'Child marks', 'Fees & receipts', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar', 'Hall tickets', 'Documents'],
 }
 
 const LINKS = {
@@ -39,6 +39,9 @@ const LINKS = {
   'My timetable': '/routine',
   Syllabus: '/syllabus',
   Birthdays: '/birthdays',
+  'Hall tickets': '/hall-tickets',
+  Certificates: '/certificates',
+  Documents: '/documents',
 }
 
 export default function Dashboard() {
