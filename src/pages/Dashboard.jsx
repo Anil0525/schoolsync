@@ -4,8 +4,8 @@ import { useI18n } from '../lib/i18n.jsx'
 import LangToggle from '../components/LangToggle.jsx'
 
 const MODULES = {
-  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export', 'School calendar', 'Class routine', 'Syllabus', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents', 'Late fees', 'Expenses & budget', 'Payroll'],
-  principal: ['Overview', 'Announcements', 'Homework', 'School calendar', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents', 'Late fees', 'Expenses & budget', 'Payroll', 'My salary slips'],
+  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export', 'School calendar', 'Class routine', 'Syllabus', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents', 'Late fees', 'Expenses & budget', 'Payroll', 'School website', 'Admission enquiries'],
+  principal: ['Overview', 'Announcements', 'Homework', 'School calendar', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents', 'Late fees', 'Expenses & budget', 'Payroll', 'Admission enquiries', 'School website', 'My salary slips'],
   teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards', 'Announcements', 'Homework', 'My timetable', 'Syllabus', 'School calendar', 'Birthdays', 'Hall tickets', 'Documents', 'My salary slips'],
   accountant: ['Fees & collection', 'Late fees', 'Expenses & budget', 'Payroll', 'Announcements', 'School calendar', 'Documents', 'My salary slips'],
   student: ['My attendance', 'My marks', 'My fees', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar', 'Hall tickets', 'Documents'],
@@ -45,6 +45,8 @@ const LINKS = {
   'Late fees': '/late-fees',
   'Expenses & budget': '/expenses',
   Payroll: '/payroll',
+  'School website': '/site-settings',
+  'Admission enquiries': '/enquiries',
   'My salary slips': '/my-salary',
 }
 

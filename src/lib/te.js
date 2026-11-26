@@ -319,4 +319,23 @@ export const te = {
   'Loss of pay is deducted per day from basic, HRA and allowances. Paid payslips cannot be changed.': 'జీతం కోత బేసిక్, HRA, అలవెన్సుల నుండి రోజు లెక్కన తీస్తారు. చెల్లించిన పేస్లిప్పులను మార్చలేరు.',
   'Salary structure': 'జీత నిర్మాణం', 'Basic (₹)': 'బేసిక్ (₹)', 'HRA (₹)': 'HRA (₹)', 'Allowances (₹)': 'అలవెన్సులు (₹)', 'PF deduction (₹)': 'PF కోత (₹)', 'Other deductions (₹)': 'ఇతర కోతలు (₹)',
   'Enter valid amounts. Basic is required.': 'సరైన మొత్తాలు ఇవ్వండి. బేసిక్ తప్పనిసరి.', 'No salary slips yet.': 'ఇంకా జీతం స్లిప్పులు లేవు.',
+
+  // public website, website settings, enquiries
+  Main: 'ప్రధాన', Home: 'హోమ్', About: 'గురించి', Admissions: 'అడ్మిషన్లు', 'Staff and parent login': 'సిబ్బంది, తల్లిదండ్రుల లాగిన్',
+  'This website is not published yet.': 'ఈ వెబ్‌సైట్ ఇంకా ప్రచురించలేదు.', 'The school admin can publish it from Website settings after signing in.': 'స్కూల్ అడ్మిన్ సైన్ ఇన్ అయ్యి, వెబ్‌సైట్ సెట్టింగ్స్ నుండి ప్రచురించవచ్చు.',
+  'Apply for admission': 'అడ్మిషన్ కోసం దరఖాస్తు చేయండి', 'Admissions are closed right now': 'ప్రస్తుతం అడ్మిషన్లు మూసివేశారు', Call: 'కాల్ చేయండి',
+  'Read more about the school': 'స్కూల్ గురించి మరింత చదవండి', Facilities: 'సౌకర్యాలు', 'From the principal': 'ప్రిన్సిపాల్ సందేశం', 'The school has not added this yet.': 'స్కూల్ ఇంకా దీన్ని చేర్చలేదు.', 'Visit us': 'మమ్మల్ని సందర్శించండి',
+  'Enter the child’s name.': 'పిల్ల పేరు ఇవ్వండి.', 'Choose the class.': 'తరగతి ఎంచుకోండి.', 'Enter the parent’s name.': 'తల్లిదండ్రుల పేరు ఇవ్వండి.', 'Enter a valid 10 digit mobile number.': 'సరైన 10 అంకెల మొబైల్ నంబర్ ఇవ్వండి.',
+  'Thank you. We have your enquiry.': 'ధన్యవాదాలు. మీ ఎంక్వైరీ అందింది.', 'The school will call you on': 'స్కూల్ వారు మీకు కాల్ చేస్తారు:', 'soon.': 'త్వరలో.', 'Back to home': 'హోమ్‌కు వెళ్ళండి',
+  'Child’s name': 'పిల్ల పేరు', 'Class applying for': 'ఏ తరగతికి దరఖాస్తు', 'Parent’s name': 'తల్లిదండ్రుల పేరు', 'Mobile number': 'మొబైల్ నంబర్', 'Email (optional)': 'ఈమెయిల్ (ఐచ్ఛికం)', 'Message (optional)': 'సందేశం (ఐచ్ఛికం)',
+  'Sending…': 'పంపుతున్నాము…', 'Send enquiry': 'ఎంక్వైరీ పంపండి', 'Visit the school website': 'స్కూల్ వెబ్‌సైట్ చూడండి',
+  'School website': 'స్కూల్ వెబ్‌సైట్', 'Admission enquiries': 'అడ్మిషన్ ఎంక్వైరీలు', 'Enter a valid email or leave it empty.': 'సరైన ఈమెయిల్ ఇవ్వండి లేదా ఖాళీగా వదలండి.',
+  'Saved. The website is live.': 'సేవ్ అయింది. వెబ్‌సైట్ లైవ్‌లో ఉంది.', 'Saved. The website is hidden until you publish it.': 'సేవ్ అయింది. మీరు ప్రచురించే వరకు వెబ్‌సైట్ కనిపించదు.',
+  'Only the admin and principal can open this page.': 'ఈ పేజీని అడ్మిన్, ప్రిన్సిపాల్ మాత్రమే తెరవగలరు.', 'Publish the website': 'వెబ్‌సైట్ ప్రచురించండి', 'Link to share with parents': 'తల్లిదండ్రులకు పంపాల్సిన లింక్',
+  'Tagline (one line)': 'ట్యాగ్‌లైన్ (ఒక లైన్)', 'About the school (one paragraph per line)': 'స్కూల్ గురించి (ఒక్కో లైన్‌కు ఒక పేరా)', 'Facilities (one per line)': 'సౌకర్యాలు (ఒక్కో లైన్‌కు ఒకటి)',
+  'Principal name': 'ప్రిన్సిపాల్ పేరు', Phone: 'ఫోన్', 'Message from the principal (one paragraph per line)': 'ప్రిన్సిపాల్ సందేశం (ఒక్కో లైన్‌కు ఒక పేరా)', Address: 'చిరునామా', Email: 'ఈమెయిల్',
+  'Admissions are open': 'అడ్మిషన్లు తెరిచి ఉన్నాయి', 'Admissions note': 'అడ్మిషన్ల గమనిక', 'Save website': 'వెబ్‌సైట్ సేవ్ చేయి',
+  'Filter by status': 'స్థితి ప్రకారం ఫిల్టర్', All: 'అన్నీ', New: 'కొత్త', Contacted: 'సంప్రదించాము', 'Visited school': 'స్కూల్ సందర్శించారు', Admitted: 'చేరారు', Closed: 'ముగిసింది',
+  Parent: 'తల్లిదండ్రులు', Received: 'అందిన తేదీ', Status: 'స్థితి', Notes: 'గమనికలు', 'Save note': 'గమనిక సేవ్ చేయి', 'No enquiries here yet.': 'ఇక్కడ ఇంకా ఎంక్వైరీలు లేవు.',
+  'Select a class': 'తరగతి ఎంచుకోండి',
 }

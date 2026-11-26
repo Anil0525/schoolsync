@@ -96,4 +96,11 @@ BATCH 3 (2026-11-24, needs SQL 023, 024, 025, optional 026). SQL was run against
  - Expenses & budget /expenses: financial year Apr-Mar, 7 fixed categories, budget per category (admin), expenses (admin/accountant add, admin delete), fees collected vs expenses.
  - Payroll /payroll (admin/accountant run, principal view): salary structure per staff (admin), month grid with loss-of-pay days and bonus, generate drafts, mark paid (paid slips are immutable by RLS), salary slip PDF with amount in words. Staff see their own PAID slips at /my-salary.
  - Telugu keys added. NOT yet tested live by the user.
-NEXT: test Batch 3, then Batch 4 (staff attendance with geo-fence + timesheet, gate entry/exit log, RFID scan, face attendance), Batch 5 (admissions + enquiries, inventory & sales, public school website), Batch 6 (notification center, PWA, live bus tracking, report-card analysis, parent feedback/complaints). Batch 7 needs paid keys/hardware (auto WhatsApp/SMS, online payments, AI chatbot, real RFID/face devices) - do last.
+BATCH 3 assumed OK by the user (2026-11-25).
+BATCH 5a FRONT END (2026-11-25, user asked for "front end" = public school website). Needs SQL 027, optional 028:
+ - Public pages (no login): #/school (home), #/school/about, #/school/admissions. Notebook look (ruled lines + red margin, class .ruled in index.css). Content comes from ss_public_site() (only when published). Telugu toggle works for the UI labels; the school's own text stays as the admin typed it.
+ - Admission form -> ss_submit_enquiry(): validates, phone normalised to 10 digits, max 3 enquiries per phone per day, 100 per hour per school, hidden honeypot field. Tables are private to anon.
+ - Admin: /site-settings (admin edits, principal views; publish switch, admissions open/closed) and /enquiries (admin + principal: status new/contacted/visited/admitted/closed, notes, call + WhatsApp links; admin deletes). Login page links to the website.
+ - Tested: SQL in pglite (anon/teacher/admin cases), UI in headless Chromium with mocked API (home desktop+mobile, form validation, submit payload). Hosting note: HashRouter, so the public link is <site>/#/school; it is client-rendered, so Google sees little of it (a later improvement if SEO matters).
+ - NOT yet tested live by the user.
+NEXT options: Batch 4 (staff attendance + geo-fence, gate log, RFID, face), rest of Batch 5 (inventory & sales; admissions enquiry -> student conversion), Batch 6 (notification center, PWA, bus tracking, report-card analysis, parent feedback), UI polish of login/dashboard.

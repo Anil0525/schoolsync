@@ -14,3 +14,14 @@
 
 body { @apply bg-chalk text-ink font-sans antialiased; }
 :focus-visible { outline: 2px solid var(--color-board); outline-offset: 2px; }
+
+/* School notebook page: ruled lines with a red margin, used by the public website */
+.ruled {
+  --margin: 2.75rem;
+  background-color: #fbfcfa;
+  background-image:
+    linear-gradient(to right, transparent var(--margin), rgba(201, 55, 44, 0.4) var(--margin), rgba(201, 55, 44, 0.4) calc(var(--margin) + 2px), transparent calc(var(--margin) + 2px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 31px, #cfe0e6 31px, #cfe0e6 32px);
+}
+@media (min-width: 768px) { .ruled { --margin: 5.5rem; } }
+.ruled-body { line-height: 2rem; }

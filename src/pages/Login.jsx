@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
 import { isConfigured } from '../lib/supabaseClient'
 import { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../lib/demo.js'
@@ -84,6 +84,7 @@ export default function Login() {
               ))}
             </div>
           </div>
+          <p className="text-sm"><Link to="/school" className="underline underline-offset-4 text-board">{t('Visit the school website')}</Link></p>
         </form>
       </section>
     </main>

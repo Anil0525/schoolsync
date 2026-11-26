@@ -33,6 +33,11 @@ const LateFees = lazy(() => import('./pages/LateFees.jsx'))
 const Expenses = lazy(() => import('./pages/Expenses.jsx'))
 const Payroll = lazy(() => import('./pages/Payroll.jsx'))
 const MySalary = lazy(() => import('./pages/MySalary.jsx'))
+const SchoolHome = lazy(() => import('./pages/SchoolHome.jsx'))
+const SchoolAbout = lazy(() => import('./pages/SchoolAbout.jsx'))
+const SchoolAdmissions = lazy(() => import('./pages/SchoolAdmissions.jsx'))
+const SiteSettings = lazy(() => import('./pages/SiteSettings.jsx'))
+const Enquiries = lazy(() => import('./pages/Enquiries.jsx'))
 
 export default function App() {
   return (
@@ -68,6 +73,11 @@ export default function App() {
       <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
       <Route path="/payroll" element={<ProtectedRoute><Payroll /></ProtectedRoute>} />
       <Route path="/my-salary" element={<ProtectedRoute><MySalary /></ProtectedRoute>} />
+      <Route path="/school" element={<SchoolHome />} />
+      <Route path="/school/about" element={<SchoolAbout />} />
+      <Route path="/school/admissions" element={<SchoolAdmissions />} />
+      <Route path="/site-settings" element={<ProtectedRoute><SiteSettings /></ProtectedRoute>} />
+      <Route path="/enquiries" element={<ProtectedRoute><Enquiries /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
