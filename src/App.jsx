@@ -29,6 +29,10 @@ const Birthdays = lazy(() => import('./pages/Birthdays.jsx'))
 const HallTickets = lazy(() => import('./pages/HallTickets.jsx'))
 const Certificates = lazy(() => import('./pages/Certificates.jsx'))
 const Documents = lazy(() => import('./pages/Documents.jsx'))
+const LateFees = lazy(() => import('./pages/LateFees.jsx'))
+const Expenses = lazy(() => import('./pages/Expenses.jsx'))
+const Payroll = lazy(() => import('./pages/Payroll.jsx'))
+const MySalary = lazy(() => import('./pages/MySalary.jsx'))
 
 export default function App() {
   return (
@@ -60,6 +64,10 @@ export default function App() {
       <Route path="/hall-tickets" element={<ProtectedRoute><HallTickets /></ProtectedRoute>} />
       <Route path="/certificates" element={<ProtectedRoute><Certificates /></ProtectedRoute>} />
       <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
+      <Route path="/late-fees" element={<ProtectedRoute><LateFees /></ProtectedRoute>} />
+      <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
+      <Route path="/payroll" element={<ProtectedRoute><Payroll /></ProtectedRoute>} />
+      <Route path="/my-salary" element={<ProtectedRoute><MySalary /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

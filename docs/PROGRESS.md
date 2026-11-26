@@ -90,4 +90,10 @@ BATCH 2 (2026-11-24, needs SQL 020, 021, optional 022; run 021 as its own query)
  - Certificates /certificates (admin + principal): bonafide, character, transfer, experience. Numbered by function ss_issue_certificate (TC/CC/BC/EC/<year>/0001, advisory lock, no direct inserts), register with search and "Download again".
  - Documents /documents: private bucket ss-documents (10 MB), category, visibility (everyone/staff/parents/students) enforced by RLS on ss_documents and on storage.objects; signed URL (60 s) download; admin/principal upload and delete.
  - Telugu keys added. NOT yet tested live by the user.
-NEXT: test Batch 2, then Batch 3 (late fee calculation, school expenses/budgeting, staff payroll + salary slip), then Batch 4 onwards (staff attendance, gate log, admissions, inventory, notifications ...). Skip hardware/paid-key items (Batch 7) until the end.
+BATCH 2 assumed OK by the user ("OK", 2026-11-24).
+BATCH 3 (2026-11-24, needs SQL 023, 024, 025, optional 026). SQL was run against real Postgres (pglite) and RLS/behaviour tested:
+ - Late fees /late-fees (admin/accountant apply, principal view, admin edits rules): per day or % per month, grace days, cap. Amount computed ONLY in SQL (ss_late_fee_preview), applied once per fee by ss_apply_late_fee which creates a normal fee "Late fee: <title>" (due in 7 days) so parents see/pay it in Fees.
+ - Expenses & budget /expenses: financial year Apr-Mar, 7 fixed categories, budget per category (admin), expenses (admin/accountant add, admin delete), fees collected vs expenses.
+ - Payroll /payroll (admin/accountant run, principal view): salary structure per staff (admin), month grid with loss-of-pay days and bonus, generate drafts, mark paid (paid slips are immutable by RLS), salary slip PDF with amount in words. Staff see their own PAID slips at /my-salary.
+ - Telugu keys added. NOT yet tested live by the user.
+NEXT: test Batch 3, then Batch 4 (staff attendance with geo-fence + timesheet, gate entry/exit log, RFID scan, face attendance), Batch 5 (admissions + enquiries, inventory & sales, public school website), Batch 6 (notification center, PWA, live bus tracking, report-card analysis, parent feedback/complaints). Batch 7 needs paid keys/hardware (auto WhatsApp/SMS, online payments, AI chatbot, real RFID/face devices) - do last.

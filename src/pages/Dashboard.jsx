@@ -4,10 +4,10 @@ import { useI18n } from '../lib/i18n.jsx'
 import LangToggle from '../components/LangToggle.jsx'
 
 const MODULES = {
-  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export', 'School calendar', 'Class routine', 'Syllabus', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents'],
-  principal: ['Overview', 'Announcements', 'Homework', 'School calendar', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents'],
-  teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards', 'Announcements', 'Homework', 'My timetable', 'Syllabus', 'School calendar', 'Birthdays', 'Hall tickets', 'Documents'],
-  accountant: ['Fees & collection', 'Announcements', 'School calendar', 'Documents'],
+  admin: ['Overview', 'Students', 'Teachers', 'User accounts', 'Classes & sections', 'Attendance', 'Exams & subjects', 'Enter marks', 'Report cards', 'Fees & collection', 'Announcements', 'Homework', 'UDISE+ export', 'School calendar', 'Class routine', 'Syllabus', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents', 'Late fees', 'Expenses & budget', 'Payroll'],
+  principal: ['Overview', 'Announcements', 'Homework', 'School calendar', 'Birthdays', 'Hall tickets', 'Certificates', 'Documents', 'Late fees', 'Expenses & budget', 'Payroll', 'My salary slips'],
+  teacher: ['My classes', 'Mark attendance', 'Enter marks', 'Report cards', 'Announcements', 'Homework', 'My timetable', 'Syllabus', 'School calendar', 'Birthdays', 'Hall tickets', 'Documents', 'My salary slips'],
+  accountant: ['Fees & collection', 'Late fees', 'Expenses & budget', 'Payroll', 'Announcements', 'School calendar', 'Documents', 'My salary slips'],
   student: ['My attendance', 'My marks', 'My fees', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar', 'Hall tickets', 'Documents'],
   parent: ['Child attendance', 'Child marks', 'Fees & receipts', 'Homework', 'Announcements', 'Class routine', 'Syllabus', 'School calendar', 'Hall tickets', 'Documents'],
 }
@@ -42,6 +42,10 @@ const LINKS = {
   'Hall tickets': '/hall-tickets',
   Certificates: '/certificates',
   Documents: '/documents',
+  'Late fees': '/late-fees',
+  'Expenses & budget': '/expenses',
+  Payroll: '/payroll',
+  'My salary slips': '/my-salary',
 }
 
 export default function Dashboard() {
